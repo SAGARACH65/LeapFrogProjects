@@ -1,6 +1,7 @@
 let canvas = document.getElementById("main-canvas");
 let ctx = canvas.getContext("2d");
 
+//Note:: Here players refers to the paddle that the players can use to control the ball
 //the player 1 plays with w&s whereas player 2 plays with the up and down keys
 //for player1
 let isWPressed = false,
@@ -8,6 +9,8 @@ let isWPressed = false,
 //for player2
 let isUpPressed = false,
     isDownPressed = false;
+
+
 let Ball = {
     x: canvas.width / 2,
     y: canvas.height - 30
@@ -24,8 +27,8 @@ let Player2 = {
     score: 0
 }
 
-let playerHeight = 30;
 
+let playerHeight = 30;
 
 let dx = 2,
     dy = -2,
@@ -130,9 +133,9 @@ let checkBallPlayerCollision = () => {
     if ((Ball.x + ballRadius) >= (Player2.x) &&
         (Ball.y + ballRadius >= (Player2.y)) &&
         (Ball.y + ballRadius <= Player2.y + playerHeight)) {
-             //changing the direction of the ball
+        //changing the direction of the ball
         dx = -dx;
-         //changing the angle the ball is returned
+        //changing the angle the ball is returned
         dy += change;
     }
 
@@ -141,8 +144,6 @@ let resetBallLocation = direction => {
 
     Ball.x = canvas.width / 2;
     Ball.y = Math.floor(Math.random() * canvas.height);
-
-
 
     if (direction === "left") {
         dx = 2;
@@ -178,15 +179,16 @@ let checkCollision = () => {
 
 let gameLoop = () => {
     drawElements();
+
     //updates the position of the ball with the velocity
     changePosition();
+
     checkCollision();
 
 }
 
 //handling user inputs
 function keyDownHandler(e) {
-
     if (e.keyCode == 87) {
         isWPressed = true;
     } else if (e.keyCode == 83) {
@@ -213,4 +215,5 @@ function keyUpHandler(e) {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
+//runs the loops every 10 millisecond. hence the fps is 60.
 setInterval(gameLoop, 10);
