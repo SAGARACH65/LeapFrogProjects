@@ -8,27 +8,32 @@ let isWPressed = false,
 //for player2
 let isUpPressed = false,
     isDownPressed = false;
+let Ball = {
+    x: canvas.width / 2,
+    y: canvas.height - 30
+}
 
-
-let xBall = canvas.width / 2;
-let yBall = canvas.height - 30;
+let Player1 = {
+    x: 0,
+    y: canvas.height / 2,
+    score: 0
+}
+let Player2 = {
+    x: canvas.width - 9,
+    y: canvas.height / 2,
+    score: 0
+}
 
 let playerHeight = 30;
-let player1StartingYPos = canvas.height / 2;
-let player2StartingYPos = canvas.height / 2;
 
-let player1StartingXPos = 0;
-let player2StartingXPos = canvas.width - 9;
-let scorePlayer1 = 0,
-    scorePlayer2 = 0;
 
-let dx = 2.5,
-    dy = -2.5,
+let dx = 2,
+    dy = -2,
     ballRadius = 3;
 
 let drawBall = () => {
     ctx.beginPath();
-    ctx.arc(xBall, yBall, ballRadius, 0, Math.PI * 2);
+    ctx.arc(Ball.x, Ball.y, ballRadius, 0, Math.PI * 2);
     ctx.fillStyle = "#fff";
     ctx.fill();
     ctx.closePath();
@@ -45,35 +50,35 @@ let drawPlayer = (playerX, playerY, width, height) => {
 
 let drawPlayers = () => {
     //player1
-    drawPlayer(player1StartingXPos + 2, player1StartingYPos, player1StartingXPos + 7, playerHeight);
+    drawPlayer(Player1.x + 2, Player1.y, Player1.x + 7, playerHeight);
     //player2
-    drawPlayer(player2StartingXPos, player2StartingYPos, 7, playerHeight);
+    drawPlayer(Player2.x, Player2.y, 7, playerHeight);
 
 }
 let showScore = () => {
     ctx.font = "5px";
-    ctx.fillText(scorePlayer1, 30, 20);
-    ctx.fillText(scorePlayer2, canvas.width - 30, 20);
+    ctx.fillText(Player1.score, 30, 20);
+    ctx.fillText(Player2.score, canvas.width - 30, 20);
 }
 
 let changeAccordingToFlags = () => {
     if (isWPressed) {
-        player1StartingYPos -= 5;
+        Player1.y -= 5;
     } else if (isSPressed) {
-        player1StartingYPos += 5;
+        Player1.y += 5;
     }
     if (isUpPressed) {
-        player2StartingYPos -= 5;
+        Player2.y -= 5;
     } else if (isDownPressed) {
-        player2StartingYPos += 5;
+        Player2.y += 5;
     }
 }
 
 let checkIfPlayerIsBeyondScreen = () => {
-    if (player1StartingYPos < 0) player1StartingYPos += 5;
-    if (player1StartingYPos + playerHeight > canvas.height) player1StartingYPos -= 5;
-    if (player2StartingYPos < 0) player2StartingYPos += 5;
-    if (player2StartingYPos + playerHeight > canvas.height) player2StartingYPos -= 5;
+    if (Player1.y < 0) Player1.y += 5;
+    if (Player1.y + playerHeight > canvas.height) Player1.y -= 5;
+    if (Player2.y < 0) Player2.y += 5;
+    if (Player2.y + playerHeight > canvas.height) Player2.y -= 5;
 }
 
 let changeCoordinates = () => {
@@ -98,54 +103,63 @@ let drawElements = () => {
 
 
 let changePosition = () => {
-    xBall += dx;
-    yBall += dy;
+    Ball.x += dx;
+    Ball.y += dy;
 }
 
 let checkTopBottomCollision = () => {
-    if (yBall + dy > canvas.height - ballRadius || yBall + dy < ballRadius) {
+    if (Ball.y + dy > canvas.height - ballRadius || Ball.y + dy < ballRadius) {
         dy = -dy;
     }
 }
 let checkBallPlayerCollision = () => {
+    //change variable changes the orientation of the ball everytime a player hits it
+    let change = Math.floor(Math.random() * 3);
 
     //checking ball collision for left player
-    if ((xBall - ballRadius) <= (player1StartingXPos + 9) &&
-        (yBall + ballRadius >= (player1StartingYPos)) &&
-        (yBall + ballRadius <= player1StartingYPos + playerHeight)) {
+    if ((Ball.x - ballRadius) <= (Player1.x + 9) &&
+        (Ball.y + ballRadius >= (Player1.y)) &&
+        (Ball.y + ballRadius <= Player1.y + playerHeight)) {
+        //changing the direction of the ball
         dx = -dx;
-
+        //changing the angle the ball is returned
+        dy += change;
     }
 
     //checking ball collison for right player
-    if ((xBall + ballRadius) >= (player2StartingXPos) &&
-        (yBall + ballRadius >= (player2StartingYPos)) &&
-        (yBall + ballRadius <= player2StartingYPos + playerHeight)) {
+    if ((Ball.x + ballRadius) >= (Player2.x) &&
+        (Ball.y + ballRadius >= (Player2.y)) &&
+        (Ball.y + ballRadius <= Player2.y + playerHeight)) {
+             //changing the direction of the ball
         dx = -dx;
+         //changing the angle the ball is returned
+        dy += change;
     }
 
 }
 let resetBallLocation = direction => {
-   
-    xBall =canvas.width/2;
-    yBall = Math.floor(Math.random()*canvas.height);
+
+    Ball.x = canvas.width / 2;
+    Ball.y = Math.floor(Math.random() * canvas.height);
+
+
 
     if (direction === "left") {
-        dx = 2.5;
-        dy = -2.5;
+        dx = 2;
+        dy = -2;
     } else {
-        dx = -2.5;
-        dy = 2.5;
+        dx = -2;
+        dy = 2;
     }
 }
 let checkRightLeftCollision = () => {
-    if (xBall + dx > canvas.width - ballRadius) {
+    if (Ball.x + dx > canvas.width - ballRadius) {
         resetBallLocation("right");
-        scorePlayer1++;
+        Player1.score++;
     }
-    if (xBall + dx < ballRadius) {
+    if (Ball.x + dx < ballRadius) {
         resetBallLocation("left");
-        scorePlayer2++;
+        Player2.score++;
     }
 }
 
