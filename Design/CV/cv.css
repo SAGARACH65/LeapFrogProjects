@@ -1,0 +1,62 @@
+body {
+    background-color: #ffebee;
+}
+
+#wrapper {
+    width: 75%;
+    background-color: #000000;
+    margin: 40px auto 100px auto;
+    font-family: "Calibri";
+    color: white;
+    font-size: 1.5em;
+    padding-bottom: 50px;
+}
+
+#sub-wrapper {
+    display: flex;
+}   
+
+#main-content {
+    width: 65%;
+    text-align: left;
+}
+
+ #main-content, #sidebar {
+    margin-left: 50px;
+    margin-right: 15px;
+    margin-top: 65px;
+}
+
+ #sidebar {
+    margin-top: 100px;
+    width: 35%;
+}
+
+.sub-content {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-left: 8px solid #0d47a1;
+    padding-left: 10px;
+}
+
+h1 {
+    text-align: center
+}
+
+#main-content>div,#sidebar>div {
+    padding-bottom: 25px;
+    border-bottom: .25px solid #eee;
+}
+
+#photo-personal {
+    height: 300px;
+    width: 70%;
+    margin: 0 auto;
+    background-image: url("Sagar.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+a {
+    color: white;
+}
