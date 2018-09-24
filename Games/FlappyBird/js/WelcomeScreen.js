@@ -1,5 +1,6 @@
 let canvas = document.getElementById("main-canvas");
 let ctx = canvas.getContext("2d");
+
 //this variable is used to generate the pipes only at certain times
 let frameCounter = 0;
 let pipesCollection = [];
@@ -42,11 +43,9 @@ let checkCollision = () => {
     checkBottomTopCollision();
 
     //checks collision with the pipes
-    //checks collision with the pipes
     pipesCollection.map(pipe => {
-        pipe.checkPipeBirdCollision(bird.x, bird.y);
+        pipe.checkPipeBirdCollision(bird);
     });
-
 }
 
 let generatePipe = () => {
@@ -78,7 +77,7 @@ let gameLoop = () => {
         //checks the collison with the top/bottom and with the pipes
         checkCollision();
 
-        //we generate a new pipe every 3 seconds
+        //we generate a new pipe at certain time
         if (frameCounter % 150 === 0) {
             generatePipe();
         }

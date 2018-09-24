@@ -47,5 +47,4 @@ class Bird {
     showScore() {
         ctx.fillText("Score:" + this.score, canvas.width - 50, 10);
     }
-
 }

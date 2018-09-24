@@ -11,7 +11,6 @@ class Pipes {
     }
 
     show() {
-
         let pipeImgTop = new Image();
         pipeImgTop.src = 'images/pipe-top.png';
         ctx.drawImage(pipeImgTop, this.x, 0, this.width, this.top);
@@ -26,11 +25,11 @@ class Pipes {
         this.x -= this.speed;
     }
 
-    checkPipeBirdCollision(BirdX, BirdY) {
+    checkPipeBirdCollision(bird) {
         console.log('b');
-        if (BirdX > this.x && BirdX < this.x + this.width) {
+        if (bird.x > this.x && bird.x < this.x + this.width) {
             console.log('a');
-            if ((BirdY < this.top || BirdY > this.bottom - 14)) {
+            if ((bird.y < this.top || bird.y > this.bottom - 14)) {
 
                 console.log('hit');
                 isOver = true;
