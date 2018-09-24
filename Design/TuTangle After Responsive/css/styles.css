@@ -11,6 +11,7 @@
 
 .images {
     float: right;
+    width:6.1544773823%;
     margin-right: 12px;
     background-position: center;
 }
@@ -34,7 +35,7 @@
 /* header part*/
 
 .app-name {
-    width: 222px;
+    width: 38.144329%;
     float: left;
 }
 
@@ -44,10 +45,11 @@
 
 .list-items {
     font-size: 11px;
+    width:100%;
 }
 
 .nav-text {
-    width: 140px;
+    width: 71.8022361268%;
     float: left;
 }
 
@@ -56,6 +58,7 @@
     padding-top: 12px;
     padding-left: 12px;
     padding-bottom: 4px;
+    width:100%;
     color: #292929;
 }
 
@@ -71,6 +74,10 @@
 .author-name:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.options li :hover {
+    color: white;
 }
 
 a {
@@ -126,8 +133,6 @@ a {
 
 }
 
-
-
 .content-header:hover {
     text-decoration: underline;
     color: #000;
@@ -145,7 +150,7 @@ ul {
 
 .input {
     background-repeat: no-repeat;
-    width: 268px;
+    width: 79.761904%;
     height: 20px;
     padding-left: 5px;
     padding-right: 4px;
@@ -170,8 +175,7 @@ ul {
 .button {
     padding: 3px 5px 4px 4px;
     background-repeat: no-repeat;
-    width: 53px;
-
+    width: 15.773809%;
     height: 20px;
     float: right;
     font-size: 10px;
@@ -255,10 +259,10 @@ ul {
     color: #474747;
 }
 
-/* main container part*/
+
 .bottom-nav-ul {
     display: flex;
-    width: 493px;
+    width: 52.5026624068%;
 
     float: left;
     margin-left: 8px;
@@ -267,7 +271,7 @@ ul {
 
 .bottom-nav-ul-bot {
     line-height: 21px;
-    width: 693px;
+    width: 150%;
     display: flex;
 }
 
@@ -333,8 +337,9 @@ ul {
 .bottom-nav-li-last {
     margin-right: 0px;
 }
-.bottom-nav-li a:hover{
-    color:#88c6d3
+
+.bottom-nav-li a:hover {
+    color: #88c6d3
 }
 
 .bottom-nav-li-bot:hover {
@@ -358,19 +363,18 @@ ul {
 
 
 .main-content-info {
-    width: 518px;
+    width: 100%;
     margin-top: 8px;
     padding-bottom: 16px;
     border-bottom: 1px solid #d8d8d8;
-    width: 518px;
+
 }
 
 .main-content-info1 {
-    width: 518px;
+    width: 100%;
     margin-top: 16px;
     padding-bottom: 15px;
     border-bottom: 1px solid #d8d8d8;
-    width: 518px;
 }
 
 .navigation-header {
@@ -378,6 +382,7 @@ ul {
     padding-bottom: 10px;
     padding-left: 12px;
     font-size: 16x;
+    width:100%;
     background-color: #2fc1da;
     color: #fff;
 }
@@ -390,7 +395,17 @@ img {
 
 .footer-left li {
     float: left;
+
     list-style: none;
+}
+.footer-left li a {
+    color:white;
+}
+
+.footer-left li :hover{
+   color:white;
+    text-decoration: underline;
+
 }
 
 .footer-left li:after {

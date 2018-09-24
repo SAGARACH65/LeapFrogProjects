@@ -29,6 +29,10 @@ body {
 .options li {
     display: inline;
     font-size: 12px;
+
+}
+.options li :hover{
+    color:white;
 }
 
 /* header part*/
