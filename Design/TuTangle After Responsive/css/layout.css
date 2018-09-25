@@ -25,6 +25,7 @@ body {
 }
 
 .header-info {
+    width: 15.3851970181%;
     float: right;
     margin-top: 4px;
     font-size: 10px;
@@ -131,7 +132,7 @@ body {
 }
 
 .navigation-bar {
-    width: 100%;
+
     background-image: url('../images/tab-top.png');
     background-position: center
 }
@@ -179,7 +180,7 @@ body {
 
 .footer-list {
     background: #727272;
-    width:19.4547856371%;
+    width: 19.4547856371%;
     float: left;
     font-size: 10px;
     color: #fff;
@@ -192,4 +193,142 @@ body {
     font-family: "Istok Web";
     font-size: 8px;
     color: #fff;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .left-logo {
+        width: 61.980830%;
+        margin-left: 15px;
+    }
+
+    .app-name {
+        width: 100%;
+        float: none;
+        margin-bottom: 10px;
+    }
+
+    .input-search {
+
+        float: none;
+    }
+
+    .bottom-nav-ul {
+        width: 100%;
+        float: none;
+        margin-left: 15px;
+        margin-bottom: 10px;
+    }
+
+
+
+    .header-notification {
+        float: none;
+        margin-left: 15px;
+    }
+
+    .wrapper-sub-header {
+        padding-bottom: 10px;
+    }
+
+    .header-info {
+        float: left;
+    }
+
+
+
+    .left-navigation {
+        display: none;
+        width: 0px;
+    }
+
+    .main-container2 {
+        background-image: none;
+    }
+
+    .left-container {
+        width: 55.2201597444%;
+
+    }
+
+    .right-navigation {
+        float: left;
+        width: 17.8498402556%;
+        margin-left: 50px;
+    }
+
+    .main-content {
+        width: 100%;
+
+        float: left
+    }
+
+    .bottom-nav-ul-bot {
+        width: 50%;
+    }
+
+    .main-bottom {
+        width: 100%
+    }
+
+
+
+}
+
+@media only screen and (max-width: 415px) {
+    .header-info {
+        float: none;
+        margin-left: 190px;
+    }
+
+    .left-logo {
+        margin-bottom: 10px;
+    }
+
+    .bottom-nav-li a {
+        font-size: 10px;
+    }
+
+    .header-notification li {
+        font-size: 11px;
+    }
+
+    .right-navigation {
+        display: none;
+        width: 0px;
+    }
+
+    .main-content {
+        width: 160%;
+        float: none;
+        margin-left: 0px;
+    }
+
+    .main-container2 {
+        width: 100%;
+        float: none;
+        margin-left: 0px;
+    }
+
+    .content-header a {
+        font-size: 8px;
+        line-height: 10px;
+    }
+
+    .author-name a {
+        font-size: 7px;
+    }
+
+    .content {
+        font-size: 7px;
+    }
+
+    .content a {
+        font-size: 7px;
+    }
+
+    .left-container {
+        float: none;
+    }
 }
