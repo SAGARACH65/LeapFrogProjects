@@ -103,8 +103,9 @@ body {
 }
 
 .left-navigation {
-    width: 25.8278145695%;
+    width: 23.5278145695%;
     float: left;
+    margin-right: 11px;
 }
 
 
@@ -149,7 +150,8 @@ body {
 
 .right-navigation {
     float: right;
-    width: 18.8498402556%;
+    width: 17.898402556%;
+    margin-right: 9.5px;
 }
 
 .footer-container {

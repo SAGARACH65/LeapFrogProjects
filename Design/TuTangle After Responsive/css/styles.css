@@ -55,7 +55,7 @@
 .list-item-specific {
     background-color: #f5f5f5;
     padding-top: 12px;
-    padding-left: 12px;
+    padding-left: 14px;
     padding-bottom: 4px;
     width: 100%;
     color: #292929;
@@ -379,7 +379,7 @@ ul {
     padding-bottom: 10px;
     padding-left: 12px;
     font-size: 16x;
-    width: 100%;
+    width: 102%;
     background-color: #2fc1da;
     color: #fff;
 }
@@ -479,10 +479,10 @@ img {
     .bottom-nav-ul-bot li {
         margin-right: 0px;
         line-height: 16px;
-   font-size:9px;
+        font-size: 9px;
     }
 
-   
+
 
     .author-name a {
         font-size: 7px;
