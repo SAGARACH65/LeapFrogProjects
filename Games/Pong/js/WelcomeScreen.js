@@ -27,7 +27,6 @@ let Player2 = {
     score: 0
 }
 
-
 let playerHeight = 30;
 
 let dx = 2,
@@ -46,7 +45,7 @@ let drawBall = () => {
 let drawPlayer = (playerX, playerY, width, height) => {
     ctx.beginPath();
     ctx.rect(playerX, playerY, width, height);
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "white";
     ctx.fill();
     ctx.closePath();
 }
@@ -164,9 +163,9 @@ let checkRightLeftCollision = () => {
     }
 }
 
-//checks collision and changes the direction of the incomming ball
+//checks collision and changes the direction of the incoming ball
 let checkCollision = () => {
-    //checking top and bottom collisons of the ball
+    //checking top and bottom collisions of the ball
     checkTopBottomCollision();
 
     //checking for ball collision with the players

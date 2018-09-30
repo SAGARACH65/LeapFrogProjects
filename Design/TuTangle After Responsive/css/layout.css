@@ -58,7 +58,7 @@ body {
 
 .notification-content-lt {
     padding-left: 19px;
-    font-size: 13px;
+    font-size: 11px;
     width: 40.6666666667%;
     float: left;
 }
@@ -66,7 +66,7 @@ body {
 .notification-content-rt {
     width: 36.3333333333%;
     padding-left: 21px;
-    font-size: 13px;
+    font-size: 11px;
     float: right;
 }
 
@@ -273,62 +273,4 @@ body {
     }
 
 
-
-}
-
-@media only screen and (max-width: 415px) {
-    .header-info {
-        float: none;
-        margin-left: 190px;
-    }
-
-    .left-logo {
-        margin-bottom: 10px;
-    }
-
-    .bottom-nav-li a {
-        font-size: 10px;
-    }
-
-    .header-notification li {
-        font-size: 11px;
-    }
-
-    .right-navigation {
-        display: none;
-        width: 0px;
-    }
-
-    .main-content {
-        width: 160%;
-        float: none;
-        margin-left: 0px;
-    }
-
-    .main-container2 {
-        width: 100%;
-        float: none;
-        margin-left: 0px;
-    }
-
-    .content-header a {
-        font-size: 8px;
-        line-height: 10px;
-    }
-
-    .author-name a {
-        font-size: 7px;
-    }
-
-    .content {
-        font-size: 7px;
-    }
-
-    .content a {
-        font-size: 7px;
-    }
-
-    .left-container {
-        float: none;
-    }
 }

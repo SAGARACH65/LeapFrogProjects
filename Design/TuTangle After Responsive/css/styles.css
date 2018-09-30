@@ -241,17 +241,18 @@ ul {
 }
 
 .bottom-li2 {
-    padding-left: 42px;
+    padding-left: 75px;
     color: #474747;
 }
 
+
 .bottom-li3 {
-    padding-left: 54px;
+    padding-left: 85px;
     color: #474747;
 }
 
 .bottom-li4 {
-    padding-left: 21px;
+    padding-left: 44px;
     color: #474747;
 }
 
@@ -278,13 +279,13 @@ ul {
 }
 
 .bottom-nav-ul-bot li {
-    margin-right: 30px;
+    /* margin-right: 30px; */
     font-size: 12px;
 }
 
 .bottom-nav-li {
     margin-right: 28px;
-    font-size: 16px;
+    font-size: 14px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -344,7 +345,10 @@ ul {
     margin-left: 94px;
     color: #474747;
     line-height: 37px;
+
 }
+
+
 
 .tab-li2 {
     font-size: 14px;
@@ -411,4 +415,127 @@ img {
 .footer-left li:last-child:after {
     content: "";
     padding-right: 0px;
+}
+
+
+@media only screen and (max-width: 415px) {
+
+
+
+    .header-info {
+        float: none;
+        margin-left: 190px;
+    }
+
+    .left-logo {
+        margin-bottom: 10px;
+    }
+
+    .navigation-bar {
+        overflow: hidden;
+        background-image: url('../images/tab-top-small.png');
+        background-position: center
+    }
+
+    .top-nav-li {
+        font-size: 12px;
+    }
+
+    .bottom-nav-li-bot {
+        font-size: 10px;
+
+    }
+
+    .bottom-nav-li a {
+        font-size: 9px;
+    }
+
+    .header-notification li {
+        font-size: 11px;
+    }
+
+    .right-navigation {
+        display: none;
+        width: 0px;
+    }
+
+    .main-content {
+        width: 160%;
+        float: none;
+        margin-left: 0px;
+    }
+
+    .main-container2 {
+        width: 100%;
+        float: none;
+        margin-left: 0px;
+    }
+
+    .content-header a {
+        font-size: 8px;
+        line-height: 10px;
+    }
+
+    .bottom-nav-ul-bot li {
+        margin-right: 0px;
+        line-height: 16px;
+   font-size:9px;
+    }
+
+   
+
+    .author-name a {
+        font-size: 7px;
+    }
+
+    .content {
+        font-size: 7px;
+    }
+
+    .content a {
+        font-size: 7px;
+    }
+
+    .left-container {
+        float: none;
+    }
+
+    .tab-li1 {
+        font-size: 12px;
+        width: 50%;
+        margin-left: 50px;
+        line-height: 18px;
+
+    }
+
+    .tab-li2 {
+        font-size: 12px;
+        width: 50%;
+        margin-left: 50px;
+        line-height: 18px;
+    }
+
+    .bottom-li1 {
+        line-height: 25px;
+        margin-left: 5px;
+        padding-left: 15px;
+    }
+
+    .bottom-li2 {
+        line-height: 25px;
+
+        padding-left: 35px;
+    }
+
+    .bottom-li3 {
+        line-height: 25px;
+
+        padding-left: 43px;
+    }
+
+    .bottom-li4 {
+        line-height: 25px;
+
+        padding-left: 18px;
+    }
 }
