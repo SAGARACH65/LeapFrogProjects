@@ -148,7 +148,7 @@ body {
 
 .right-navigation {
     float: right;
-    width: 17.208402556%;
+    width: 17.708402556%;
     margin-right: 9.5px;
 }
 
@@ -282,18 +282,4 @@ body {
     }
 
 
-}
-
-@media only screen and (max-width: 767px) {
-    .navigation-bar {
-        overflow: hidden;
-        background-image: url('../images/tab-top-medium.png');
-        background-position: center
-    }
-
-    .bottom-nav-ul-bot li {
-        margin-right: 0px;
-        line-height: 20px;
-        font-size: 10px;
-    }
 }
