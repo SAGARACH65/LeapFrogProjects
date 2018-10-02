@@ -25,15 +25,4 @@ class Pipes {
         this.x -= this.speed;
     }
 
-    checkPipeBirdCollision(bird) {
-        console.log('b');
-        if (bird.x > this.x && bird.x < this.x + this.width) {
-            console.log('a');
-            if ((bird.y < this.top || bird.y > this.bottom - 14)) {
-
-                console.log('hit');
-                isOver = true;
-            }
-        }
-    }
 }

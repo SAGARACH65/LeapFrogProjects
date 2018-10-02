@@ -9,6 +9,7 @@
     text-align: right;
 }
 
+
 .images {
     float: right;
     width: 6.1544773823%;
@@ -418,9 +419,8 @@ img {
 }
 
 
+
 @media only screen and (max-width: 415px) {
-
-
 
     .header-info {
         float: none;
@@ -430,7 +430,16 @@ img {
     .left-logo {
         margin-bottom: 10px;
     }
-
+    .footer {
+        font-size: 7px;
+    }
+    
+    .footer-right {
+    
+        font-size: 7px;
+        margin-left: 30px;
+    }
+    
     .navigation-bar {
         overflow: hidden;
         background-image: url('../images/tab-top-small.png');
@@ -481,8 +490,6 @@ img {
         line-height: 16px;
         font-size: 9px;
     }
-
-
 
     .author-name a {
         font-size: 7px;

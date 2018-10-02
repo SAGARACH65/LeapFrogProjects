@@ -103,7 +103,7 @@ body {
 }
 
 .left-navigation {
-    width: 23.5278145695%;
+    width: 23.9278145695%;
     float: left;
     margin-right: 11px;
 }
@@ -116,9 +116,7 @@ body {
     width: 67.5496688742%;
 }
 
-.main-container {
-    /* min-width: 62.625em; */
-}
+
 
 .main-container2 {
     width: 58.6875em;
@@ -150,7 +148,7 @@ body {
 
 .right-navigation {
     float: right;
-    width: 17.898402556%;
+    width: 17.208402556%;
     margin-right: 9.5px;
 }
 
@@ -203,6 +201,15 @@ body {
     .left-logo {
         width: 61.980830%;
         margin-left: 15px;
+    }
+
+    .footer {
+        width:100%;
+    }
+
+    .footer-right {
+        margin-left: 360px;
+        float: none;
     }
 
     .app-name {
@@ -275,4 +282,18 @@ body {
     }
 
 
+}
+
+@media only screen and (max-width: 767px) {
+    .navigation-bar {
+        overflow: hidden;
+        background-image: url('../images/tab-top-medium.png');
+        background-position: center
+    }
+
+    .bottom-nav-ul-bot li {
+        margin-right: 0px;
+        line-height: 20px;
+        font-size: 10px;
+    }
 }

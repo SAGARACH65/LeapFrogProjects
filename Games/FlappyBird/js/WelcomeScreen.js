@@ -38,13 +38,30 @@ let checkBottomTopCollision = () => {
     bird.checkBottomCollision();
 }
 
+let checkForCollisionWithTopPipe = (pipe) => {
+    return (bird.x < pipe.x + pipe.width &&
+        bird.x + bird.width > pipe.x &&
+        bird.y < 0 + pipe.top &&
+        bird.height + bird.y > 0);
+}
+
+let checkForCollisionWithBottomPipe = (pipe) => {
+    return (bird.x < pipe.x + pipe.width &&
+        bird.x + bird.width > pipe.x &&
+        bird.y < pipe.bottom + (canvas.height - pipe.bottom) &&
+        bird.height + bird.y > pipe.bottom);
+}
+
 let checkCollision = () => {
     //checks collision with te top and bottom
     checkBottomTopCollision();
 
     //checks collision with the pipes
     pipesCollection.map(pipe => {
-        pipe.checkPipeBirdCollision(bird);
+      
+        if (checkForCollisionWithBottomPipe(pipe) || checkForCollisionWithTopPipe(pipe)) {
+            isOver = true;
+        }
     });
 }
 

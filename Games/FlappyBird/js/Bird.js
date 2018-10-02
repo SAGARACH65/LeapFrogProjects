@@ -1,20 +1,22 @@
+const gravity = 0.05;
 class Bird {
     constructor() {
         this.x = 50;
         this.y = canvas.height / 2 - 30;
-        this.gravity = 0.05;
         this.score = 0;
         this.velocity = 0;
+        this.width=30;
+        this.height=11;
     }
 
     show() {
         let birdImg = new Image();
         birdImg.src = 'images/bird.png';
-        ctx.drawImage(birdImg, this.x, this.y, 30, 11);
+        ctx.drawImage(birdImg, this.x, this.y, this.width, this.height);
     }
 
     updatePerGravity() {
-        this.velocity += this.gravity;
+        this.velocity += gravity;
         this.y += this.velocity;
     }
 
@@ -22,7 +24,6 @@ class Bird {
         //here 11 is the height of the bird and 30 is the width of the bird
         if (this.y + 11 < 0) {
             this.velocity = 0;
-            //    console.log('game over');
             isOver = true;
         }
     }
@@ -31,7 +32,6 @@ class Bird {
         if (this.y + 11 > canvas.height - 14) {
             this.velocity = 0;
             isOver = true;
-            //  console.log('game over');
         }
     }
 
