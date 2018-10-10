@@ -379,10 +379,10 @@ ul {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 12px;
-    
+
     font-size: 16px;
     width: 101%;
-    
+
     background-color: #2fc1da;
     color: #fff;
 }
@@ -429,16 +429,17 @@ img {
     .left-logo {
         margin-bottom: 10px;
     }
+
     .footer {
         font-size: 7px;
     }
-    
+
     .footer-right {
-    
+
         font-size: 7px;
         margin-left: 70px;
     }
-    
+
     .navigation-bar {
         overflow: hidden;
         background-image: url('../images/tab-top-medium.png');
@@ -544,24 +545,26 @@ img {
 
         padding-left: 32px;
     }
-    
-   
+
+
 }
 
 
 @media only screen and (max-width: 361px) {
-    
+
     .navigation-bar {
         overflow: hidden;
         background-image: url('../images/tab-top-small.png');
-        background-position: center
+        background-position: center;
     }
+
     .footer-right {
-    
+
         font-size: 7px;
         margin-left: 30px;
     }
- .bottom-li1 {
+
+    .bottom-li1 {
         line-height: 25px;
         margin-left: 5px;
         padding-left: 15px;

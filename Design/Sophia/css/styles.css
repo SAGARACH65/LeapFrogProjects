@@ -1,0 +1,56 @@
+﻿
+
+.right-header-content options {
+    margin-left: 2.5px;
+    font-size: 12px;
+    color: black;
+}
+
+.right-header-content .options li {
+    display: inline;
+    font-size: 12px;
+}
+.bottom-left-header-content{
+    float:left;
+    margin-top:14px;
+    margin-left:80px;   
+    
+}
+.bottom-left-header-content options {
+    margin-left: 2.5px;
+    color: black;
+   
+}
+
+.bottom-left-header-content .options li {
+    display: inline;
+    font-size: 18px;
+    margin-right:13px;
+    
+}
+.options li :hover {
+    color: white;
+}
+.options a {
+    color: black;
+}
+
+
+.phn-no{
+    font-size: 12px;
+    float:right;
+    margin-left: 14px;
+}
+
+.logo{
+    display:inline;  
+    float:left;
+    margin-left:230px;
+  }
+a {
+    text-decoration: none
+}
+
+ul {
+    list-style: none;
+}

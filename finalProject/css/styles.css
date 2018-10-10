@@ -1,0 +1,6 @@
+#main-canvas {
+    background: #000;
+    display: block;
+    margin: 0 auto;
+    width: 1040px; height: 740px; z-index: 0; background-color: #72D7EE;
+}
