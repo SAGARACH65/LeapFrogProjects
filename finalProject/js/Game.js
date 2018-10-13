@@ -1,90 +1,147 @@
-let canvas = document.getElementById("main-canvas");
-canvas.setAttribute('width', '1024');
-canvas.setAttribute('height', '768');
-let ctx = canvas.getContext("2d");
-
-let position = 0;                       // current camera Z position (add playerZ to get player's absolute Z position)
-
-
-let isRightPressed = false,
-    isLeftPressed = false,
-    isUpPressed = false,
-    isDownPressed = false;
-
-
-let road = new Road();
-
-let playerX = 0;                       // player x offset from center of road (-1 to 1 to stay independent of roadWidth)
-let playerZ = 20;                    // player relative z distance from camera (computed)
-let speed = 0;                       // current speed
-let maxSpeed = SEGMENT_LENGTH * 60;      // top speed (ensure we can't move more than 1 segment in a single frame to make collision detection easier)
-let accel = maxSpeed / 5;             // acceleration rate - tuned until it 'felt' right
-let breaking = -maxSpeed;               // deceleration rate when braking
-let decel = -maxSpeed / 5;             // 'natural' deceleration rate when neither accelerating, nor braking
-let offRoadDecel = -maxSpeed / 2;             // off road deceleration is somewhere in between
-let offRoadLimit = maxSpeed / 4;             // limit when off road deceleration no longer applies (e.g. you can always go at least this speed even when off road)
+//position of sprite in the spritesheet
+const CAR_CENTRE = {
+    x: 0,
+    y: 130,
+    w: 69,
+    h: 38
+};
+const CAR_LEFT = {
+    x: 70,
+    y: 130,
+    w: 77,
+    h: 38
+};
+const CAR_RIGHT = {
+    x: 148,
+    y: 130,
+    w: 77,
+    h: 38
+};
 
 
-let drawRoad = () => {
+class Game {
+    constructor() {
+        this.canvas = document.getElementById("main-canvas");
+        this.canvas.setAttribute('width', '1024');
+        this.canvas.setAttribute('height', '768');
+
+        this.ctx = this.canvas.getContext("2d");
+
+        this.position = 0;                       // current camera Z position (add playerZ to get player's absolute Z position)
+
+        this.isRightPressed = false;
+        this.isLeftPressed = false;
+        this.isUpPressed = false;
+        this.isDownPressed = false;
+
+        this.road = new Road();
+        this.player = new Player();
+        this.carSprite = CAR_CENTRE;
+        this.spriteSheet = new Image();
+
+        // this.drawRoad = this.drawRoad.bind(this);
+        // this.update = this.update.bind(this);
+        // this.drawBackground = this.drawBackground.bind(this);
+        this.drawPlayer = this.drawPlayer.bind(this);
+        this.gameLoop = this.gameLoop.bind(this);
+        this.keyDownHandler = this.keyDownHandler.bind(this);
+        this.keyUpHandler = this.keyUpHandler.bind(this);
+        this.start = this.start.bind(this);
+    }
 
 
-    //for drawing we need to create the segments
-    road.makeSegments();
+    drawRoad() {
 
-    //450*250 i.e after 250 segments start from the beginning
-    if (position > 112500) position = 0;
+        //for drawing we need to create the segments
+        this.road.makeSegments();
 
-    road.drawRoad();
+        //450*250 i.e after 250 segments start from the beginning
+        if (this.position > 112500) this.position = 0;
+
+        this.road.drawRoad(this.ctx, this.position);
+
+    }
+
+    update() {
+        this.position += 450;
+        if (this.isLeftPressed) this.player.updateX(-0.02);
+        if (this.isRightPressed) this.player.updateX(+0.02);
+        if (this.isUpPressed) this.player.increasePosition();
+    }
+
+    drawBackground() {
+        drawImage(this.ctx, '../images/bg.png', 0, 0, 1050, 422);
+    }
+
+    drawPlayer() {
+        this.player.draw(this.ctx, this.spriteSheet, this.carSprite, this.canvas.width / 2 + 30, 600);
+    }
+
+    gameLoop() {
+        //  CLEARING THE SCREEN BEFORE EACH UPDATE
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        //drawing the background image
+
+        this.drawBackground();
+        this.drawRoad();
+        this.drawPlayer();
+        this.update();
+
+        requestAnimationFrame(this.gameLoop);
+    }
+
+
+    keyDownHandler(e) {
+        if (e.keyCode == 39) {
+            this.isRightPressed = true;
+            this.carSprite = CAR_RIGHT;
+        }
+        else if (e.keyCode == 37) {
+            this.isLeftPressed = true;
+            this.carSprite = CAR_LEFT;
+        }
+        else if (e.keyCode == 38) {
+            this.isUpPressed = true;
+        }
+        else if (e.keyCode == 40) {
+            this.isDownPressed = true;
+        }
+    }
+
+    keyUpHandler(e) {
+        if (e.keyCode == 39) {
+            this.isRightPressed = false;
+            this.carSprite = CAR_CENTRE;
+        }
+        else if (e.keyCode == 37) {
+            this.isLeftPressed = false;
+            this.carSprite = CAR_CENTRE;
+        }
+        else if (e.keyCode == 38) {
+            this.isLeftPressed = false;
+        }
+        else if (e.keyCode == 40) {
+            this.isDownPressed = false;
+        }
+    }
+
+    start() {
+        //initial setup for the game
+        document.addEventListener('keydown', this.keyDownHandler, false);
+        document.addEventListener('keyup', this.keyUpHandler, false);
+
+
+        //loading the sprites
+
+        this.spriteSheet.src = "../images/spritesheet.high.png";
+
+        requestAnimationFrame(this.gameLoop);
+
+    }
+
 
 }
 
-
-let update = () => {
-    position += 20 * 10;
-
-}
-let gameLoop = () => {
-    //  CLEARING THE SCREEN BEFORE EACH UPDATE
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    drawRoad();
-    update();
-
-    requestAnimationFrame(gameLoop);
-}
-
-
-let keyDownHandler = e => {
-    if (e.keyCode == 39) {
-        isRightPressed = true;
-    }
-    else if (e.keyCode == 37) {
-        isLeftPressed = true;
-    }
-    else if (e.keyCode == 38) {
-        isUpPressed = true;
-    }
-    else if (e.keyCode == 40) {
-        isDownPressed = true;
-    }
-}
-
-let keyUpHandler = e => {
-    if (e.keyCode == 39) {
-        isRightPressed = false;
-    }
-    else if (e.keyCode == 37) {
-        isLeftPressed = false;
-    }
-    else if (e.keyCode == 38) {
-        leftPressed = true;
-    }
-    else if (e.keyCode == 40) {
-        isDownPressed = true;
-    }
-}
-
-document.addEventListener('keydown', keyDownHandler, false);
-document.addEventListener('keyup', keyUpHandler, false);
-
-requestAnimationFrame(gameLoop);
+const game = new Game();
+game.start();

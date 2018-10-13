@@ -7,10 +7,10 @@ const SIDE_STRIP_LENGTH = 3;                       // number of  this.segments p
 let trackLength;                    // z length of entire track (computed)
 const LANES = 4;                       // number of LANES
 const FIELD_OF_VIEW = 100;                     // angle (degrees) for field of view
-const CAMERA_HEIGHT = 6000;                    // z CANVAS_HEIGHT of camera
-const CAMERA_DEPTH = 0.5;                  // z distance camera is from screen (computed)
-const DRAW_DISTANCE = 300;                     // number of  this.segments to draw
-let i = 0;
+const CAMERA_HEIGHT = 9000;                    // z CANVAS_HEIGHT of camera
+const CAMERA_DEPTH = 1;                  // z distance camera is from screen (computed)
+const NO_OF_SEG_TO_DRAW=300;
+
 const COLORS = {
     LIGHT: { road: '#696969', grass: '#10AA10', sideStrip: 'red', lane: 'white' },
     DARK: { road: '#696969', grass: '#009A00', sideStrip: 'white' },
@@ -18,11 +18,7 @@ const COLORS = {
     FINISH: { road: 'black', grass: 'black', sideStrip: 'black' }
 };
 
-let BACKGROUND = {
-    HILLS: { x: 5, y: 5, w: 1280, h: 480 },
-    SKY: { x: 5, y: 495, w: 1280, h: 480 },
-    TREES: { x: 5, y: 985, w: 1280, h: 480 }
-};
+
 
 
 class Road {
@@ -30,11 +26,8 @@ class Road {
     constructor() {
         // this.segments are the elements joined to form the road
         this.segments = [];
-    }
 
-    makeSegments() {
-        this.segments = [];
-        //550  this.segments are drawn as it produced the best result than fewer  this.segments
+        //550  this.segments are drawn as it produced the best result than fewer segments
         for (let n = 0; n < 550; n++) {
             this.segments.push({
                 index: n,
@@ -43,22 +36,26 @@ class Road {
                 color: Math.floor(n / SIDE_STRIP_LENGTH) % 2 ? COLORS.DARK : COLORS.LIGHT
             });
         }
+    }
+
+    makeSegments() {
 
         this.segments[this.findSegment(playerZ).index + 2].color = COLORS.START;
         this.segments[this.findSegment(playerZ).index + 3].color = COLORS.START;
         for (let n = 0; n < SIDE_STRIP_LENGTH; n++)
             this.segments[this.segments.length - 1 - n].color = COLORS.FINISH;
 
+
         trackLength = this.segments.length * SEGMENT_LENGTH;
 
     }
 
-    drawRoad() {
+    drawRoad(ctx,position) {
         let baseSegment = this.findSegment(position);
 
         let maxy = CANVAS_HEIGHT;
         let n, segment;
-        for (n = 0; n < DRAW_DISTANCE; n++) {
+        for (n = 0; n < NO_OF_SEG_TO_DRAW; n++) {
 
             segment = this.segments[(baseSegment.index + n) % this.segments.length];
 
@@ -78,9 +75,12 @@ class Road {
                 segment.p2.screen.w,
                 segment.color);
 
+
             maxy = segment.p2.screen.y;
         }
     }
+
+
     project(p, cameraX, cameraY, cameraZ, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, ROAD_WIDTH) {
 
         p.camera.x = (p.world.x || 0) - cameraX;
@@ -109,13 +109,22 @@ class Road {
         drawPolygon(ctx, x1 + w1 + r1, y1, x1 + w1, y1, x2 + w2, y2, x2 + w2 + r2, y2, color.sideStrip);
         drawPolygon(ctx, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, color.road);
 
-        lanew1 = w1 * 2 / LANES;
-        lanew2 = w2 * 2 / LANES;
-        lanex1 = x1 - w1 + lanew1;
-        lanex2 = x2 - w2 + lanew2;
-        for (lane = 1; lane < LANES; lanex1 += lanew1, lanex2 += lanew2, lane++)
-            drawPolygon(ctx, lanex1 - l1 / 2, y1, lanex1 + l1 / 2, y1, lanex2 + l2 / 2, y2, lanex2 - l2 / 2, y2, color.lane);
 
+        //width and x posiiton of the starting lane
+        lanew1 = w1 * 2 / LANES;
+        lanex1 = x1 - w1 + lanew1;
+
+
+        lanew2 = w2 * 2 / LANES;
+        lanex2 = x2 - w2 + lanew2;
+
+
+        //drawing the strips on the road
+        for (lane = 1; lane < LANES; lane++) {
+            drawPolygon(ctx, lanex1 - l1 / 2, y1, lanex1 + l1 / 2, y1, lanex2 + l2 / 2, y2, lanex2 - l2 / 2, y2, color.lane);
+            lanex1 += lanew1;
+            lanex2 += lanew2;
+        }
     }
 
     sideStripWidth(projectedRoadWidth, LANES) { return projectedRoadWidth / Math.max(3, 2 * LANES); }
