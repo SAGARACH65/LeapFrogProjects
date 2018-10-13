@@ -1,15 +1,15 @@
-const CANVAS_WIDTH = 1024;                    // logical canvas CANVAS_WIDTH
+const CANVAS_WIDTH = 1024;
 const CANVAS_HEIGHT = 768;
 
-const ROAD_WIDTH = 6500;                    // actually half the roads CANVAS_WIDTH, easier math if the road spans from -ROAD_WIDTH to +ROAD_WIDTH
-const SEGMENT_LENGTH = 450;                     // length of a single segment
+const ROAD_WIDTH = 6500;
+const SEGMENT_LENGTH = 450;  // length of a single segment
 const SIDE_STRIP_LENGTH = 3;                       // number of  this.segments per red/white sideStrip strip
-let trackLength;                    // z length of entire track (computed)
-const LANES = 4;                       // number of LANES
-const FIELD_OF_VIEW = 100;                     // angle (degrees) for field of view
-const CAMERA_HEIGHT = 9000;                    // z CANVAS_HEIGHT of camera
-const CAMERA_DEPTH = 1;                  // z distance camera is from screen (computed)
-const NO_OF_SEG_TO_DRAW=300;
+
+const LANES = 4;
+const FIELD_OF_VIEW = 100;     // angle in degrees for field of view
+const CAMERA_HEIGHT = 9000;       // z CANVAS_HEIGHT of camera
+const CAMERA_DEPTH = 1;                  // z distance camera is from screen 
+const NO_OF_SEG_TO_DRAW = 300;
 
 const COLORS = {
     LIGHT: { road: '#696969', grass: '#10AA10', sideStrip: 'red', lane: 'white' },
@@ -17,8 +17,6 @@ const COLORS = {
     START: { road: 'white', grass: 'white', sideStrip: 'white' },
     FINISH: { road: 'black', grass: 'black', sideStrip: 'black' }
 };
-
-
 
 
 class Road {
@@ -45,12 +43,9 @@ class Road {
         for (let n = 0; n < SIDE_STRIP_LENGTH; n++)
             this.segments[this.segments.length - 1 - n].color = COLORS.FINISH;
 
-
-        trackLength = this.segments.length * SEGMENT_LENGTH;
-
     }
 
-    drawRoad(ctx,position) {
+    drawRoad(ctx, position, playerX) {
         let baseSegment = this.findSegment(position);
 
         let maxy = CANVAS_HEIGHT;
@@ -75,11 +70,9 @@ class Road {
                 segment.p2.screen.w,
                 segment.color);
 
-
             maxy = segment.p2.screen.y;
         }
     }
-
 
     project(p, cameraX, cameraY, cameraZ, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, ROAD_WIDTH) {
 
@@ -92,10 +85,9 @@ class Road {
         p.screen.x = Math.round((CANVAS_WIDTH / 2) + (p.screen.scale * p.camera.x * CANVAS_WIDTH / 2));
         p.screen.y = Math.round((CANVAS_HEIGHT / 2) - (p.screen.scale * p.camera.y * CANVAS_HEIGHT / 2));
         p.screen.w = Math.round((p.screen.scale * ROAD_WIDTH * CANVAS_WIDTH / 2));
-
     }
-    renderSegment(ctx, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
 
+    renderSegment(ctx, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
         let r1 = this.sideStripWidth(w1, LANES),
             r2 = this.sideStripWidth(w2, LANES),
             l1 = this.laneMarkerWidth(w1, LANES),
@@ -109,15 +101,12 @@ class Road {
         drawPolygon(ctx, x1 + w1 + r1, y1, x1 + w1, y1, x2 + w2, y2, x2 + w2 + r2, y2, color.sideStrip);
         drawPolygon(ctx, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, color.road);
 
-
         //width and x posiiton of the starting lane
         lanew1 = w1 * 2 / LANES;
         lanex1 = x1 - w1 + lanew1;
 
-
         lanew2 = w2 * 2 / LANES;
         lanex2 = x2 - w2 + lanew2;
-
 
         //drawing the strips on the road
         for (lane = 1; lane < LANES; lane++) {
