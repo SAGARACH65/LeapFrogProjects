@@ -2,11 +2,10 @@
 let playerZ = 0;                    // player relative z distance from camera 
 
 const MAX_SPEED = 750;
-const ACCELERATION = MAX_SPEED / 60;
-const BREAKING = -MAX_SPEED / 30;
-const DECELERATION = -MAX_SPEED / 120;
 const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
-
+const ACCELERATION = MAX_SPEED / 180;
+const BREAKING = -MAX_SPEED / 30;
+const DECELERATION = -MAX_SPEED / 200;
 
 class Player {
     constructor() {
@@ -40,7 +39,7 @@ class Player {
 
     draw(ctx, spriteSheet, sprite, destX, destY) {
         ctx.drawImage(spriteSheet, sprite.x, sprite.y, sprite.w,
-            sprite.h, destX, destY, 120, 140);
+            sprite.h, destX, destY, 200, 140);
     }
 
 }   

@@ -17,7 +17,7 @@ const CAR_RIGHT = {
     w: 77,
     h: 38
 };
-
+const TURNING_SPEED = 0.02;
 
 class Game {
     constructor() {
@@ -25,10 +25,9 @@ class Game {
         this.canvas.setAttribute('width', '1024');
         this.canvas.setAttribute('height', '768');
 
-       
         this.ctx = this.canvas.getContext("2d");
 
-        this.position = 0;                       // current camera Z position 
+        this.position = 0;   //   Z position of the camera 
 
         this.isRightPressed = false;
         this.isLeftPressed = false;
@@ -36,13 +35,13 @@ class Game {
         this.isDownPressed = false;
 
         this.road = new Road();
+        this.road.initializeSegments();
+
         this.player = new Player();
+
         this.carSprite = CAR_CENTRE;
         this.spriteSheet = new Image();
 
-        // this.drawRoad = this.drawRoad.bind(this);
-        // this.update = this.update.bind(this);
-        // this.drawBackground = this.drawBackground.bind(this);
         this.drawPlayer = this.drawPlayer.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.keyDownHandler = this.keyDownHandler.bind(this);
@@ -51,8 +50,6 @@ class Game {
     }
 
     drawRoad() {
-        //for drawing we need to create the segments
-        this.road.makeSegments();
 
         //450*250 i.e after 250 segments start from the beginning
         if (this.position > 112500) this.position = 0;
@@ -63,10 +60,10 @@ class Game {
     update() {
         this.player.updateSpeed({ isUpPressed: this.isUpPressed, isDownPressed: this.isDownPressed });
 
-        //we only update the x position only if up key is pressed
-        if (this.isUpPressed) {
-            if (this.isLeftPressed) this.player.updateX(-0.02);
-            if (this.isRightPressed) this.player.updateX(+0.02);
+        //we only update the x position only if car has certain speed   
+        if (this.player.speed > 0) {
+            if (this.isLeftPressed) this.player.updateX(-TURNING_SPEED);
+            if (this.isRightPressed) this.player.updateX(+TURNING_SPEED);
         }
 
         this.position += this.player.speed;
@@ -139,8 +136,6 @@ class Game {
         requestAnimationFrame(this.gameLoop);
 
     }
-
-
 }
 
 const game = new Game();
