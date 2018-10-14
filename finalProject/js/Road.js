@@ -6,7 +6,7 @@ const SEGMENT_LENGTH = 450;  // length of a single segment
 const SIDE_STRIP_LENGTH = 3;  // number of segments per red/white sideStrip strip
 
 const LANES = 4;
-const CAMERA_HEIGHT = 3400;       // z CANVAS_HEIGHT of camera
+const CAMERA_HEIGHT = 3400;       // z height of camera
 const CAMERA_DEPTH = 1;           // z distance camera is from the screen 
 const NO_OF_SEG_TO_DRAW = 300;//number of seg we draw before reinitializing the camera
 
@@ -63,13 +63,8 @@ class Road {
             if ((segment.p2.screen.y >= maxHeight))
                 continue;
 
-            this.renderSegment(ctx, CANVAS_WIDTH, LANES,
-                segment.p1.screen.x,
-                segment.p1.screen.y,
-                segment.p1.screen.w,
-                segment.p2.screen.x,
-                segment.p2.screen.y,
-                segment.p2.screen.w,
+            this.renderSegment(ctx, CANVAS_WIDTH, LANES, segment.p1.screen.x, segment.p1.screen.y,
+                segment.p1.screen.w, segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w,
                 segment.color);
 
             maxHeight = segment.p2.screen.y;
@@ -77,14 +72,17 @@ class Road {
     }
 
     project(p, cameraX, cameraY, cameraZ, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, ROAD_WIDTH) {
-        //as we the initial x,y and z hasnot been initialized we have an alternate value set as 0 for 
-        // the inital time the loop is run
+
+        //translation the workd coordinates into camera coordiantes
         p.camera.x = p.world.x - cameraX;
         p.camera.y = p.world.y - cameraY;
         p.camera.z = p.world.z - cameraZ;
 
         p.screen.scale = CAMERA_DEPTH / p.camera.z;
 
+
+        //combination of projection from cmaera coordiantes to projection plane and 
+        //scaling the projected cordinates to physical screen coordinates
         p.screen.x = Math.round((CANVAS_WIDTH / 2) + (p.screen.scale * p.camera.x * CANVAS_WIDTH / 2));
         p.screen.y = Math.round((CANVAS_HEIGHT / 2) - (p.screen.scale * p.camera.y * CANVAS_HEIGHT / 2));
         p.screen.w = Math.round((p.screen.scale * ROAD_WIDTH * CANVAS_WIDTH / 2));
