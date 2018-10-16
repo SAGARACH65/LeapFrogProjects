@@ -9,7 +9,7 @@ const LANES = 4;
 const CAMERA_HEIGHT = 3400;       // z height of camera
 const CAMERA_DEPTH = 1;           // z distance camera is from the screen 
 const NO_OF_SEG_TO_DRAW = 300;//number of seg we draw before reinitializing the camera
-
+let i=1;
 const COLORS = [
     { road: '#696969', grass: '#10AA10', sideStrip: 'red', lane: 'white' },
     { road: '#696969', grass: '#009A00', sideStrip: 'white' },
@@ -18,81 +18,74 @@ const COLORS = [
 class Road {
 
     constructor() {
-        // this.segments are the elements joined to form the road
+        // segments are the elements joined to form the road
         this.segments = [];
 
         //550  this.segments are drawn as it produced the best result than fewer segments
-        for (let n = 0; n < 550; n++) {
+        for (let i = 0; i < 550; i++) {
             this.segments.push({
-                index: n,
+                index: i,
                 ///each segment is constrcuted of two points p1 and p2 which are the two opposite ends 
                 p1: {
-                    world: { x: 0, y: 0, z: n * SEGMENT_LENGTH },
-                    camera: { x: 0, y: 0, z: 0 },
-                    screen: { x: 0, y: 0 }
+                    worldCoordinates: { x: 0, y: 0, z: i * SEGMENT_LENGTH },
+                    cameraCoordinates: { x: 0, y: 0, z: 0 },
+                    screenCoordinates: { x: 0, y: 0 }
                 },
                 p2: {
-                    world: { x: 0, y: 0, z: (n + 1) * SEGMENT_LENGTH },
-                    camera: { x: 0, y: 0, z: 0 },
-                    screen: { x: 0, y: 0 }
+                    worldCoordinates: { x: 0, y: 0, z: (i + 1) * SEGMENT_LENGTH },
+                    cameraCoordinates: { x: 0, y: 0, z: 0 },
+                    screenCoordinates: { x: 0, y: 0 }
                 },
-                color: Math.floor(n / SIDE_STRIP_LENGTH) % 2 ? COLORS[0] : COLORS[1]
+                color: Math.floor(i / SIDE_STRIP_LENGTH) % 2 ? COLORS[0] : COLORS[1]
             });
         }
     }
 
     initializeSegments() {
-        //create checker boardpattern later here 
+        //TODO create checker boardpattern later here 
     }
-
 
     drawRoad(ctx, position, playerX) {
         let baseSegment = this.findSegment(position);
 
         let maxHeight = CANVAS_HEIGHT;
-        let n, segment;
-        for (n = 0; n < NO_OF_SEG_TO_DRAW; n++) {
+        for (let n = 0; n < NO_OF_SEG_TO_DRAW; n++) {
 
-            segment = this.segments[(baseSegment.index + n) % this.segments.length];
-
+            let segment = this.segments[(baseSegment.index + n)];
 
             this.project(segment.p1, (playerX * ROAD_WIDTH), CAMERA_HEIGHT, position, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, ROAD_WIDTH);
             this.project(segment.p2, (playerX * ROAD_WIDTH), CAMERA_HEIGHT, position, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, ROAD_WIDTH);
 
             //the segments that are behind us doont need to be rendered
-            if ((segment.p2.screen.y >= maxHeight))
-                continue;
+            if ((segment.p2.screenCoordinates.y >= maxHeight)) continue;
 
-            this.renderSegment(ctx, CANVAS_WIDTH, LANES, segment.p1.screen.x, segment.p1.screen.y,
-                segment.p1.screen.w, segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w,
+            this.renderSegment(ctx, CANVAS_WIDTH, LANES, segment.p1.screenCoordinates.x, segment.p1.screenCoordinates.y,
+                segment.p1.screenCoordinates.w, segment.p2.screenCoordinates.x, segment.p2.screenCoordinates.y, segment.p2.screenCoordinates.w,
                 segment.color);
 
-            maxHeight = segment.p2.screen.y;
+            maxHeight = segment.p2.screenCoordinates.y;
         }
     }
 
     project(p, cameraX, cameraY, cameraZ, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, ROAD_WIDTH) {
 
         //translation the workd coordinates into camera coordiantes
-        p.camera.x = p.world.x - cameraX;
-        p.camera.y = p.world.y - cameraY;
-        p.camera.z = p.world.z - cameraZ;
+        p.cameraCoordinates.x = p.worldCoordinates.x - cameraX;
+      
+        p.cameraCoordinates.y = p.worldCoordinates.y - cameraY;
+        p.cameraCoordinates.z = p.worldCoordinates.z - cameraZ;
 
-        p.screen.scale = CAMERA_DEPTH / p.camera.z;
+        p.screenCoordinates.scale = CAMERA_DEPTH / p.cameraCoordinates.z;
 
-
-        //combination of projection from cmaera coordiantes to projection plane and 
+        //combination of projection from camera coordiantes to projection plane and 
         //scaling the projected cordinates to physical screen coordinates
-        p.screen.x = Math.round((CANVAS_WIDTH / 2) + (p.screen.scale * p.camera.x * CANVAS_WIDTH / 2));
-        p.screen.y = Math.round((CANVAS_HEIGHT / 2) - (p.screen.scale * p.camera.y * CANVAS_HEIGHT / 2));
-        p.screen.w = Math.round((p.screen.scale * ROAD_WIDTH * CANVAS_WIDTH / 2));
+        p.screenCoordinates.x = Math.round((CANVAS_WIDTH / 2) + (p.screenCoordinates.scale * p.cameraCoordinates.x * CANVAS_WIDTH / 2));
+        p.screenCoordinates.y = Math.round((CANVAS_HEIGHT / 2) - (p.screenCoordinates.scale * p.cameraCoordinates.y * CANVAS_HEIGHT / 2));
+        p.screenCoordinates.w = Math.round((p.screenCoordinates.scale * ROAD_WIDTH * CANVAS_WIDTH / 2));
     }
 
     renderSegment(ctx, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
-        let r1 = this.sideStripWidth(w1, LANES),
-            r2 = this.sideStripWidth(w2, LANES),
-            l1 = this.laneMarkerWidth(w1, LANES),
-            l2 = this.laneMarkerWidth(w2, LANES);
+        let r1 = w1 / 10, r2 = w2 / 10, l1 = w1 / 32, l2 = w2 / 32;
 
         let laneW1, laneW2, laneX1, laneX2;
 
@@ -117,9 +110,6 @@ class Road {
             laneX2 += laneW2;
         }
     }
-
-    sideStripWidth(projectedRoadWidth, LANES) { return projectedRoadWidth / Math.max(3, 2 * LANES); }
-    laneMarkerWidth(projectedRoadWidth, LANES) { return projectedRoadWidth / Math.max(32, 8 * LANES); }
 
     //finds the segment depending on the z value provided
     findSegment(z) {
