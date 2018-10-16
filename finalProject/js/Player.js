@@ -1,11 +1,11 @@
-
 let playerZ = 0;                    // player relative z distance from camera 
 
-const MAX_SPEED = 750;
+const MAX_SPEED = 550;
 const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
-const ACCELERATION = MAX_SPEED / 180;
+const ACCELERATION = MAX_SPEED / 150;
 const BREAKING = -MAX_SPEED / 30;
 const DECELERATION = -MAX_SPEED / 200;
+const TURNING_SPEED = 0.02;
 
 class Player {
     constructor() {
@@ -13,8 +13,8 @@ class Player {
         this.playerX = 0;
     }
 
-    updateX(change) {
-        this.playerX += change;
+    updateX(sign) {
+        this.playerX += sign * TURNING_SPEED;
     }
 
     updateSpeed(buttonState) {

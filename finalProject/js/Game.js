@@ -17,7 +17,12 @@ const CAR_RIGHT = {
     w: 77,
     h: 38
 };
-const TURNING_SPEED = 0.02;
+
+let track = [
+    { type: 'straight', length: 200 },
+    { type: 'curve', length: 200 },
+    { type: 'straight', length: 200 }
+];
 
 const CAR_ACCELERATE = new Audio('../sounds/accelerate.mp3');
 const CAR_DECELERATE = new Audio('../sounds/car+geardown.mp3');
@@ -55,7 +60,6 @@ class Game {
     }
 
     drawRoad() {
-        // CAR_ACCELERATE.play();
         //450*250 i.e after 250 segments start from the beginning
         if (this.position > 112500) this.position = 0;
 
@@ -67,9 +71,9 @@ class Game {
 
         //we only update the x position only if car has certain speed   
         if (this.player.speed > 0) {
-            if (this.isLeftPressed) this.player.updateX(-TURNING_SPEED);
-            if (this.isRightPressed) this.player.updateX(+TURNING_SPEED);
-            
+            if (this.isLeftPressed) this.player.updateX(-1);
+            if (this.isRightPressed) this.player.updateX(+1);
+
         }
 
         this.position += this.player.speed;
@@ -77,7 +81,7 @@ class Game {
     }
 
     drawBackground() {
-        drawImage(this.ctx, '../images/bg.png', 0, 0, 1050, 422);
+        drawImage(this.ctx, '../images/bg.png', 0, 0, 1050, 402);
     }
 
     drawPlayer() {
@@ -108,11 +112,11 @@ class Game {
         }
         else if (e.keyCode == 38) {
             this.isUpPressed = true;
-           
+
         }
         else if (e.keyCode == 40) {
             this.isDownPressed = true;
-                   }
+        }
     }
 
     keyUpHandler(e) {
