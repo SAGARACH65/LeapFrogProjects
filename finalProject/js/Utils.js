@@ -15,6 +15,10 @@ let drawImage = (ctx, src, x, y, width, height) => {
     ctx.drawImage(img, x, y, width, height);
 }
 
+let easeIn = (a, b, percent) => { return a + (b - a) * Math.pow(percent, 2); }
+let easeOut = (a, b, percent) => { return a + (b - a) * (1 - Math.pow(1 - percent, 2)); };
+let percentRemaining = (n, total) => { return (n % total) / total; };
+
 /**
  * 
  * @param {number}min-the minimum number which the function should return(default value is 1)

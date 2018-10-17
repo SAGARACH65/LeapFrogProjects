@@ -19,14 +19,16 @@ const CAR_RIGHT = {
 };
 
 let track = [
-    { type: 'straight', length: 200 },
-    { type: 'curve', length: 200 },
-    { type: 'straight', length: 200 }
+    { type: 'straight', length: 100, curve: 20 },
+    { type: 'curve', length: 100, curve: -50 },
+    { type: 'straight', length: 100, curve: 50 },
+    { type: 'straight', length: 100, curve: 50 }
+
 ];
 
-const CAR_ACCELERATE = new Audio('../sounds/accelerate.mp3');
+const CAR_ACCELERATE = new Audio('../sounds/main-engine.wav');
 const CAR_DECELERATE = new Audio('../sounds/car+geardown.mp3');
-const CAR_SKID = new Audio('../sounds/tireSkid.mp3');
+const CAR_SKID = new Audio('../sounds/skid.mp3');
 const CAR_START = new Audio('../sounds/carstartgarage.mp3');
 
 class Game {
@@ -45,7 +47,11 @@ class Game {
         this.isDownPressed = false;
 
         this.road = new Road();
-        this.road.initializeSegments();
+
+
+        for (let x = 0; x < track.length; x++) {
+            this.addRoad(100, 100, 100, track[x].curve)
+        }
 
         this.player = new Player();
 
@@ -59,25 +65,48 @@ class Game {
         this.start = this.start.bind(this);
     }
 
+    addRoad(enter, hold, leave, curve) {
+        var n;
+        for (n = 0; n < enter; n++)
+            this.road.initializeSegments(easeIn(0, curve, n / enter));
+
+        for (n = 0; n < hold; n++)
+            this.road.initializeSegments(curve);
+
+        for (n = 0; n < leave; n++)
+            this.road.initializeSegments(easeOut(curve, 0, n / leave));
+    }
+
     drawRoad() {
-        //450*250 i.e after 250 segments start from the beginning
-        if (this.position > 112500) this.position = 0;
+        // //450*250 i.e after 250 segments start from the beginning
+        // if (this.position > 112500) this.position = 0;
 
         this.road.drawRoad(this.ctx, this.position, this.player.playerX);
     }
 
+    updatePlayerAsPerCurve() {
+        let currentCurveIndex = this.road.findSegmentIndex(this.position);
+        let currentCurve = this.road.segments[currentCurveIndex].curve;
+
+        if (currentCurve !== 0) {
+            this.player.updateXInCurve(currentCurve);
+            if (this.isLeftPressed || this.isRightPressed) CAR_SKID.play();
+        }
+    }
+
     update() {
+        if (this.isUpPressed) CAR_ACCELERATE.play();
         this.player.updateSpeed({ isUpPressed: this.isUpPressed, isDownPressed: this.isDownPressed });
+
+        //we create a illusion of curve by moving the car as per the curve
+        this.updatePlayerAsPerCurve();
 
         //we only update the x position only if car has certain speed   
         if (this.player.speed > 0) {
             if (this.isLeftPressed) this.player.updateX(-1);
             if (this.isRightPressed) this.player.updateX(+1);
-
         }
-
         this.position += this.player.speed;
-
     }
 
     drawBackground() {
@@ -100,7 +129,6 @@ class Game {
         requestAnimationFrame(this.gameLoop);
     }
 
-
     keyDownHandler(e) {
         if (e.keyCode == 39) {
             this.isRightPressed = true;
@@ -112,6 +140,7 @@ class Game {
         }
         else if (e.keyCode == 38) {
             this.isUpPressed = true;
+
 
         }
         else if (e.keyCode == 40) {
@@ -142,13 +171,11 @@ class Game {
         document.addEventListener('keyup', this.keyUpHandler, false);
 
         //loading the sprites
-
         this.spriteSheet.src = "../images/spritesheet.high.png";
 
         requestAnimationFrame(this.gameLoop);
 
         CAR_START.play();
-
     }
 }
 

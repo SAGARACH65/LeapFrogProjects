@@ -14,7 +14,11 @@ class Player {
     }
 
     updateX(sign) {
-        this.playerX += sign * TURNING_SPEED;
+        //  console.log(curve);
+        this.playerX += (sign * TURNING_SPEED);
+    }
+    updateXInCurve(curveValue) {
+        this.playerX -= curveValue * 0.0004;
     }
 
     updateSpeed(buttonState) {
