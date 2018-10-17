@@ -20,10 +20,11 @@ const CAR_RIGHT = {
 };
 
 let trackMap = [
-    { type: 'straight', length: 100, curve: 20 },
-    { type: 'curve', length: 100, curve: -50 },
-    { type: 'straight', length: 100, curve: 50 },
-    { type: 'straight', length: 100, curve: 50 }
+    { type: 'straight', number: 300, curvature: 0 },
+    { type: 'curve', number: 300, curvature: -50 },
+    { type: 'straight', number: 300, curvature: 0 },
+    { type: 'curve', number: 300, curvature: 50 },
+    { type: 'straight', number: 300, curvature: 0 },
 
 ];
 
@@ -49,9 +50,8 @@ class Game {
 
         this.road = new Road();
 
-
         for (let x = 0; x < trackMap.length; x++) {
-            this.addRoad(100, 100, 100, trackMap[x].curve)
+            this.addRoad(trackMap[x].number / 2, trackMap[x].curvature)
         }
 
         this.player = new Player();
@@ -66,16 +66,25 @@ class Game {
         this.start = this.start.bind(this);
     }
 
-    addRoad(enter, hold, leave, curve) {
-        var n;
-        for (n = 0; n < enter; n++)
-            this.road.initializeSegments(easeIn(0, curve, n / enter));
+    enterSector(length, curvature) {
+        for (let n = 0; n < length; n++)
+            this.road.initializeSegments(getEnterCurvature(n, curvature, length));
+    }
 
-        for (n = 0; n < hold; n++)
-            this.road.initializeSegments(curve);
+    exitSector(length, curvature) {
+        for (let n = 0; n < length; n++)
+            this.road.initializeSegments(getExitCurvature(curvature, n, length));
+    }
 
-        for (n = 0; n < leave; n++)
-            this.road.initializeSegments(easeOut(curve, 0, n / leave));
+    addRoad(length, curvature) {
+        //sector are a potions of road. may be straight or curved
+        //each sector is constructed using segments
+
+        //enter the segments
+        this.enterSector(length, curvature);
+
+        //exit the segments
+        this.exitSector(length, curvature);
     }
 
     drawRoad() {
@@ -87,7 +96,7 @@ class Game {
 
     updatePlayerAsPerCurve() {
         let currentCurveIndex = this.road.findSegmentIndex(this.position);
-        let currentCurve = this.road.segments[currentCurveIndex].curve;
+        let currentCurve = this.road.segments[currentCurveIndex].curvature;
 
         if (currentCurve !== 0) {
             this.player.updateXInCurve(currentCurve);

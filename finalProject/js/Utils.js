@@ -10,14 +10,26 @@ let drawPolygon = (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) => {
 }
 
 let drawImage = (ctx, src, x, y, width, height) => {
-    var img = new Image();
+    let img = new Image();
     img.src = src;
     ctx.drawImage(img, x, y, width, height);
 }
 
-let easeIn = (a, b, percent) => { return a + (b - a) * Math.pow(percent, 2); }
-let easeOut = (a, b, percent) => { return a + (b - a) * (1 - Math.pow(1 - percent, 2)); };
-let percentRemaining = (n, total) => { return (n % total) / total; };
+let getEnterCurvature = (currentSegment, goal, length) => {
+    //getting equal increments so that we can add in each segment
+    let percent = goal / length;
+    return currentSegment * percent + percent;
+}
+
+let getExitCurvature = (curvature, currentSegment, length) => {
+    let percent = currentSegment / length;
+    curvature -= percent;
+    return curvature - percent;
+}
+
+let percentRemaining = (n, total) => {
+    return (n % total) / total;
+}
 
 /**
  * 

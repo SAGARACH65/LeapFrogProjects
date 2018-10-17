@@ -21,7 +21,7 @@ class Road {
         this.segments = [];
     }
 
-    initializeSegments(curve) {
+    initializeSegments(curvature) {
         let i = this.segments.length;
 
         this.segments.push({
@@ -36,7 +36,7 @@ class Road {
                 cameraCoordinates: { x: 0, y: 0, z: 0 },
                 screenCoordinates: { x: 0, y: 0 }
             },
-            curve: curve,
+            curvature: curvature,
             color: Math.floor(i / ROAD_PARAM.SIDE_STRIP_LENGTH) % 2 ? ROAD_PARAM.COLORS[0] : ROAD_PARAM.COLORS[1]
         });
 
@@ -46,7 +46,9 @@ class Road {
         let baseSegmentIndex = this.findSegmentIndex(position);
 
         var basePercent = percentRemaining(position, ROAD_PARAM.SEGMENT_LENGTH);
-        var dx = - (this.segments[baseSegmentIndex].curve * basePercent);
+        var dx = -(this.segments[baseSegmentIndex].curvature * basePercent);
+        // if (this.segments[baseSegmentIndex].curvature != 0)
+        //     console.log(basePercent);
         var x = 0;
 
         let maxHeight = ROAD_PARAM.CANVAS_HEIGHT;
@@ -60,9 +62,8 @@ class Road {
             this.project(segment.p2, (playerX * ROAD_PARAM.WIDTH) - x - dx, ROAD_PARAM.CAMERA_HEIGHT,
                 position, ROAD_PARAM.CAMERA_DEPTH, ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.CANVAS_HEIGHT, ROAD_PARAM.WIDTH);
 
-            x = x + dx;
-            dx = dx + segment.curve;
-
+            x += dx;
+            dx += segment.curvature;
             //the segments that are behind us doont need to be rendered
             if ((segment.p2.screenCoordinates.y >= maxHeight)) continue;
 
