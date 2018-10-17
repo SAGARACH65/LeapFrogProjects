@@ -11,6 +11,7 @@ const CAR_LEFT = {
     w: 77,
     h: 38
 };
+
 const CAR_RIGHT = {
     x: 148,
     y: 130,
@@ -18,7 +19,7 @@ const CAR_RIGHT = {
     h: 38
 };
 
-let track = [
+let trackMap = [
     { type: 'straight', length: 100, curve: 20 },
     { type: 'curve', length: 100, curve: -50 },
     { type: 'straight', length: 100, curve: 50 },
@@ -28,7 +29,7 @@ let track = [
 
 const CAR_ACCELERATE = new Audio('../sounds/main-engine.wav');
 const CAR_DECELERATE = new Audio('../sounds/car+geardown.mp3');
-const CAR_SKID = new Audio('../sounds/skid.mp3');
+const CAR_SKID = new Audio('../sounds/skid.wav');
 const CAR_START = new Audio('../sounds/carstartgarage.mp3');
 
 class Game {
@@ -49,8 +50,8 @@ class Game {
         this.road = new Road();
 
 
-        for (let x = 0; x < track.length; x++) {
-            this.addRoad(100, 100, 100, track[x].curve)
+        for (let x = 0; x < trackMap.length; x++) {
+            this.addRoad(100, 100, 100, trackMap[x].curve)
         }
 
         this.player = new Player();
@@ -90,12 +91,11 @@ class Game {
 
         if (currentCurve !== 0) {
             this.player.updateXInCurve(currentCurve);
-            if (this.isLeftPressed || this.isRightPressed) CAR_SKID.play();
+            // if (this.isLeftPressed || this.isRightPressed) CAR_SKID.play();
         }
     }
 
     update() {
-        if (this.isUpPressed) CAR_ACCELERATE.play();
         this.player.updateSpeed({ isUpPressed: this.isUpPressed, isDownPressed: this.isDownPressed });
 
         //we create a illusion of curve by moving the car as per the curve
@@ -110,7 +110,7 @@ class Game {
     }
 
     drawBackground() {
-        drawImage(this.ctx, '../images/bg.png', 0, 0, 1050, 402);
+        drawImage(this.ctx, '../images/b.png', 0, 0, 1050, 402);
     }
 
     drawPlayer() {
