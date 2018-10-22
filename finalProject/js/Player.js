@@ -1,6 +1,5 @@
-let playerZ = 0;                    // player relative z distance from camera 
 
-const MAX_SPEED = 550;
+const MAX_SPEED = 950;
 const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
 const ACCELERATION = MAX_SPEED / 150;
 const BREAKING = -MAX_SPEED / 30;
@@ -13,12 +12,13 @@ class Player {
         this.playerX = 0;
     }
 
+    //sign is the -1 or +1 depending on the 
     updateX(sign) {
-        //  console.log(curve);
         this.playerX += (sign * TURNING_SPEED);
     }
+
     updateXInCurve(curveValue) {
-        this.playerX -= curveValue * 0.0004;
+        if (this.speed > 50) this.playerX -= curveValue * 0.0004;
     }
 
     updateSpeed(buttonState) {
@@ -43,7 +43,7 @@ class Player {
 
     draw(ctx, spriteSheet, sprite, destX, destY) {
         ctx.drawImage(spriteSheet, sprite.x, sprite.y, sprite.w,
-            sprite.h, destX, destY, 200, 140);
+            sprite.h, destX, destY, 200, 150);
     }
 
 }   

@@ -1,6 +1,5 @@
 #main-canvas {
     background: #000;
     display: block;
-    margin: 0 auto;
-    width: 1040px; height: 650px; z-index: 0; background-color: black;
+    width: 1900px; height: 997px; background-color: black;
 }

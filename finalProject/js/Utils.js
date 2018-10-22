@@ -16,7 +16,7 @@ let drawImage = (ctx, src, x, y, width, height) => {
 }
 
 let getEnterCurvature = (currentSegment, goal, length) => {
-    //getting equal increments so that we can add in each segment
+    //getting equal increments so that we ca    n add in each segment
     let percent = goal / length;
     return currentSegment * percent + percent;
 }
@@ -27,8 +27,14 @@ let getExitCurvature = (curvature, currentSegment, length) => {
     return curvature - percent;
 }
 
-let percentRemaining = (n, total) => {
-    return (n % total) / total;
+
+let createSoundObject = (location) => {
+    let sound = new Audio();
+    let src = document.createElement("source");
+    src.type = "audio/mpeg";
+    src.src = location;
+    sound.appendChild(src);
+    return sound;
 }
 
 /**
@@ -38,7 +44,6 @@ let percentRemaining = (n, total) => {
  * returns{number}
  */
 let generateRandomNO = function (max = 1, min = 0) {
-
     return (Math.floor(Math.random() * (max - min + 1)) + min);
 }
 

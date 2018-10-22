@@ -19,25 +19,25 @@ const CAR_RIGHT = {
     h: 38
 };
 
-let trackMap = [
-    { type: 'straight', number: 300, curvature: 0 },
+const trackMap = [
+    { type: 'straight', number: 100, curvature: 0 },
     { type: 'curve', number: 300, curvature: -50 },
     { type: 'straight', number: 300, curvature: 0 },
     { type: 'curve', number: 300, curvature: 50 },
+    { type: 'curve', number: 300, curvature: 20 },
     { type: 'straight', number: 300, curvature: 0 },
-
 ];
 
-const CAR_ACCELERATE = new Audio('../sounds/main-engine.wav');
-const CAR_DECELERATE = new Audio('../sounds/car+geardown.mp3');
-const CAR_SKID = new Audio('../sounds/skid.wav');
-const CAR_START = new Audio('../sounds/carstartgarage.mp3');
+const CAR_ACCELERATE = createSoundObject('../sounds/main-engine.wav');
+const CAR_DECELERATE = createSoundObject('../sounds/car+geardown.mp3');
+const CAR_SKID = createSoundObject('../sounds/skid.wav');
+const CAR_START = createSoundObject('../sounds/carstartgarage.mp3');
 
 class Game {
     constructor() {
         this.canvas = document.getElementById("main-canvas");
-        this.canvas.setAttribute('width', '1024');
-        this.canvas.setAttribute('height', '768');
+        this.canvas.setAttribute('width', '1920');
+        this.canvas.setAttribute('height', '1080');
 
         this.ctx = this.canvas.getContext("2d");
 
@@ -50,6 +50,7 @@ class Game {
 
         this.road = new Road();
 
+        //initialize the road object
         for (let x = 0; x < trackMap.length; x++) {
             this.addRoad(trackMap[x].number / 2, trackMap[x].curvature)
         }
@@ -119,17 +120,25 @@ class Game {
     }
 
     drawBackground() {
-        drawImage(this.ctx, '../images/b.png', 0, 0, 1050, 402);
+        drawImage(this.ctx, '../images/b.png', 0, 0, 1920, 549);
     }
 
     drawPlayer() {
         this.player.draw(this.ctx, this.spriteSheet, this.carSprite, this.canvas.width / 2 + 30, 600);
     }
 
+    playSounds() {
+        if (this.isUpPressed) CAR_ACCELERATE.play();
+        if (this.isDownPressed) { CAR_ACCELERATE.pause(); CAR_DECELERATE.play(); }
+        if ((this.isLeftPressed || this.isRightPressed)
+            && this.road.segments[this.road.findSegmentIndex(this.position)].curvature != 0) CAR_SKID.play();
+    }
+
     gameLoop() {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // this.playSounds();
         this.drawBackground();
         this.drawRoad();
         this.drawPlayer();
@@ -142,14 +151,15 @@ class Game {
         if (e.keyCode == 39) {
             this.isRightPressed = true;
             this.carSprite = CAR_RIGHT;
+
         }
         else if (e.keyCode == 37) {
             this.isLeftPressed = true;
             this.carSprite = CAR_LEFT;
+
         }
         else if (e.keyCode == 38) {
             this.isUpPressed = true;
-
 
         }
         else if (e.keyCode == 40) {
