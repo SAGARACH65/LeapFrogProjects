@@ -1,43 +1,9 @@
-//position of sprite in the spritesheet
-const CAR_CENTRE = {
-    x: 0,
-    y: 130,
-    w: 69,
-    h: 38
-};
-const CAR_LEFT = {
-    x: 70,
-    y: 130,
-    w: 77,
-    h: 38
-};
-
-const CAR_RIGHT = {
-    x: 148,
-    y: 130,
-    w: 77,
-    h: 38
-};
-
-const trackMap = [
-    { type: 'straight', number: 100, curvature: 0 },
-    { type: 'curve', number: 300, curvature: -50 },
-    { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: 50 },
-    { type: 'curve', number: 300, curvature: 20 },
-    { type: 'straight', number: 300, curvature: 0 },
-];
-
-const CAR_ACCELERATE = createSoundObject('../sounds/main-engine.wav');
-const CAR_DECELERATE = createSoundObject('../sounds/car+geardown.mp3');
-const CAR_SKID = createSoundObject('../sounds/skid.wav');
-const CAR_START = createSoundObject('../sounds/carstartgarage.mp3');
 
 class Game {
     constructor() {
         this.canvas = document.getElementById("main-canvas");
-        this.canvas.setAttribute('width', '1920');
-        this.canvas.setAttribute('height', '1080');
+        this.canvas.setAttribute('width', ROAD_PARAM.CANVAS_WIDTH);
+        this.canvas.setAttribute('height', ROAD_PARAM.CANVAS_HEIGHT);
 
         this.ctx = this.canvas.getContext("2d");
 
@@ -50,10 +16,11 @@ class Game {
 
         this.road = new Road();
 
+
         //initialize the road object
-        for (let x = 0; x < trackMap.length; x++) {
-            this.addRoad(trackMap[x].number / 2, trackMap[x].curvature)
-        }
+        trackMap.map(sector => {
+            this.addRoad(sector.number / 2, sector.curvature)
+        });
 
         this.player = new Player();
 

@@ -1,20 +1,3 @@
-const ROAD_PARAM = {
-    WIDTH: 9000,
-    SEGMENT_LENGTH: 550,  // length of a single segment
-    SIDE_STRIP_LENGTH: 3,  // number of segments per red/white sideStrip strip
-    NO_OF_LANES: 4,
-    CAMERA_HEIGHT: 4400,       // z height of camera
-    CAMERA_DEPTH: 0.2,           // z distance camera is from the screen 
-    NO_OF_SEG_TO_DRAW: 150,      //number of seg we draw at a time
-    COLORS: [
-        { road: '#696969', grass: '#097D04', sideStrip: 'red', lane: 'white' },
-        { road: '#696969', grass: '#066102', sideStrip: 'white' },
-    ],
-    CANVAS_WIDTH: 1920,
-    CANVAS_HEIGHT: 1080
-}
-
-const TREE_IMAGES = ['../images/tree.png', '../images/tree2.png'];
 
 class Road {
 
@@ -38,10 +21,23 @@ class Road {
                 screenCoordinates: { x: 0, y: 0, scale: 0 },
                 worldCoordinates: { x: 0, y: 0, z: (i + 1) * ROAD_PARAM.SEGMENT_LENGTH }
             },
-            tree: TREE_IMAGES[generateRandomNO(1, 0)],
+            tree: { ...TREES[generateRandomNO(1, 0)], ...{ sideToDrawTree: this.getSideToDrawTree(curvature) } },
             curvature: curvature,
             color: Math.floor(i / ROAD_PARAM.SIDE_STRIP_LENGTH) % 2 ? ROAD_PARAM.COLORS[0] : ROAD_PARAM.COLORS[1]
         });
+    }
+
+    /**
+     * this function retruns -ve or +ve value for left and right side respectively.
+     * the sign is decided by random for straight roads
+     * for left turns it gives only gives +ve value
+     * and for right turn it only gives -ve values
+     */
+    getSideToDrawTree(curvature) {
+        if (curvature < 0) return 1;
+        else if (curvature > 0) return -1;
+        else return (((generateRandomNO(-1, 2) <= 0) ? 1 : -1));
+
     }
 
     drawRoad(ctx, position, playerX) {
@@ -67,7 +63,34 @@ class Road {
             this.renderSegment(ctx, ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.NO_OF_LANES, segment.p1.screenCoordinates.x, segment.p1.screenCoordinates.y,
                 segment.p1.screenCoordinates.w, segment.p2.screenCoordinates.x, segment.p2.screenCoordinates.y, segment.p2.screenCoordinates.w,
                 segment.color);
+
+            //trees are drawn every 12 segments so as to maintain sparsity
+            if (n % 10 === 0) {
+                this.drawTrees(ctx, segment);
+            }
         }
+    }
+
+    drawTrees(ctx, currentSegment) {
+
+        let sign = currentSegment.tree.sideToDrawTree;
+        console.log(currentSegment.tree);
+
+
+        let treeScale = currentSegment.p2.screenCoordinates.scale;
+        let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
+        //    let spriteX = segment.p2.screenCoordinates.x +(spriteScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
+
+        let treeY = currentSegment.p2.screenCoordinates.y;
+
+        let treeWidth = (currentSegment.tree.width * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
+        let treeHeight = (currentSegment.tree.height * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
+
+        treeX += sign * treeWidth;
+        // spriteX = spriteX + destW;
+        treeY += - treeHeight;
+
+        drawImage(ctx, currentSegment.tree.img, treeX, treeY, treeWidth, treeHeight);
     }
 
     project(p, cameraX, cameraY, cameraZ, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, WIDTH) {
@@ -87,7 +110,11 @@ class Road {
     }
 
     renderSegment(ctx, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
-        let r1 = w1 / 10, r2 = w2 / 10, l1 = w1 / 32, l2 = w2 / 32;
+
+        let r1 = w1 / 10,
+            r2 = w2 / 10,
+            l1 = w1 / 40,
+            l2 = w2 / 40;
 
         let laneW1, laneW2, laneX1, laneX2;
 
@@ -105,7 +132,7 @@ class Road {
         laneW2 = w2 * 2 / LANES;
         laneX2 = x2 - w2 + laneW2;
 
-        //drawing the strips on the road
+        //drawing the white strips on the road
         for (let lane = 0; lane < LANES - 1; lane++) {
             drawPolygon(ctx, laneX1 - l1 / 2, y1, laneX1 + l1 / 2, y1, laneX2 + l2 / 2, y2, laneX2 - l2 / 2, y2, color.lane);
             laneX1 += laneW1;

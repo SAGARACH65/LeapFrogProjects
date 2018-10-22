@@ -1,11 +1,4 @@
 
-const MAX_SPEED = 950;
-const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
-const ACCELERATION = MAX_SPEED / 150;
-const BREAKING = -MAX_SPEED / 30;
-const DECELERATION = -MAX_SPEED / 200;
-const TURNING_SPEED = 0.02;
-
 class Player {
     constructor() {
         this.speed = 0;
