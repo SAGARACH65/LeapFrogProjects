@@ -2,9 +2,9 @@
 //////////////////////////////////////////////constants used in Game.js////////////////////////////////////////////////////
 const trackMap = [
     { type: 'straight', number: 100, curvature: 0 },
-    { type: 'curve', number: 300, curvature: -20 },
+    { type: 'curve', number: 300, curvature: -50 },
     { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: 20 },
+    { type: 'curve', number: 300, curvature: 50 },
     { type: 'curve', number: 300, curvature: 20 },
     { type: 'straight', number: 300, curvature: 0 },
 ];
@@ -42,7 +42,7 @@ const MAX_SPEED = 950;
 const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
 const ACCELERATION = MAX_SPEED / 150;
 const BREAKING = -MAX_SPEED / 30;
-const DECELERATION = -MAX_SPEED / 200;
+const DECELERATION = -MAX_SPEED / 140;
 const TURNING_SPEED = 0.02;
 
 //////////////////////////////////////////////constants used in Road.js////////////////////////////////////////////////////

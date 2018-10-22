@@ -35,9 +35,8 @@ class Road {
      */
     getSideToDrawTree(curvature) {
         if (curvature < 0) return 1;
-        else if (curvature > 0) return -1;
-        else return (((generateRandomNO(-1, 2) <= 0) ? 1 : -1));
-
+        else if (curvature > 0) return -1.5;
+        else return (((generateRandomNO(-1, 2) <= 0) ? 1 : -1.5));
     }
 
     drawRoad(ctx, position, playerX) {
@@ -63,10 +62,12 @@ class Road {
             this.renderSegment(ctx, ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.NO_OF_LANES, segment.p1.screenCoordinates.x, segment.p1.screenCoordinates.y,
                 segment.p1.screenCoordinates.w, segment.p2.screenCoordinates.x, segment.p2.screenCoordinates.y, segment.p2.screenCoordinates.w,
                 segment.color);
+       // }
+        // for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--) {
 
             //trees are drawn every 12 segments so as to maintain sparsity
             if (n % 10 === 0) {
-                this.drawTrees(ctx, segment);
+                this.drawTrees(ctx, this.segments[n]);
             }
         }
     }
@@ -74,8 +75,7 @@ class Road {
     drawTrees(ctx, currentSegment) {
 
         let sign = currentSegment.tree.sideToDrawTree;
-        console.log(currentSegment.tree);
-
+       
 
         let treeScale = currentSegment.p2.screenCoordinates.scale;
         let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
