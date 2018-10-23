@@ -8,14 +8,15 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
 
         this.position = 0;   //   Z position of the camera 
+        this.currentSegment = 3;
 
         this.isRightPressed = false;
         this.isLeftPressed = false;
         this.isUpPressed = false;
         this.isDownPressed = false;
+        this.isSpacePressed = false;
 
         this.road = new Road();
-
 
         //initialize the road object
         trackMap.map(sector => {
@@ -33,6 +34,7 @@ class Game {
         this.keyDownHandler = this.keyDownHandler.bind(this);
         this.keyUpHandler = this.keyUpHandler.bind(this);
         this.start = this.start.bind(this);
+
     }
 
     enterSector(length, curvature) {
@@ -73,8 +75,16 @@ class Game {
         }
     }
 
+    updateNitro() {
+        if ((this.road.findSegmentIndex(this.position) - this.currentSegment >= 7) && !this.isSpacePressed) {
+            this.player.increaseNitro();
+            this.currentSegment = this.road.findSegmentIndex(this.position);
+        }
+    }
     update() {
-        this.player.updateSpeed({ isUpPressed: this.isUpPressed, isDownPressed: this.isDownPressed });
+        this.updateNitro();
+
+        this.player.updateSpeed({ isUpPressed: this.isUpPressed, isDownPressed: this.isDownPressed, isSpacePressed: this.isSpacePressed });
 
         //we create a illusion of curve by moving the car as per the curve
         this.updatePlayerAsPerCurve();
@@ -102,12 +112,11 @@ class Game {
             && this.road.segments[this.road.findSegmentIndex(this.position)].curvature != 0) CAR_SKID.play();
     }
 
-
-
     drawDashBoard() {
-        this.dashBoard.drawSteering(this.ctx);
+        this.dashBoard.drawSteering(this.ctx, this.isLeftPressed, this.isRightPressed);
         this.dashBoard.drawSpeedometer(this.ctx);
         this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
+        this.dashBoard.drawNitroMeter(this.ctx, MAX_NITRO, this.player.nitro);
     }
 
     gameLoop() {
@@ -128,19 +137,20 @@ class Game {
         if (e.keyCode == 39) {
             this.isRightPressed = true;
             this.carSprite = CAR_RIGHT;
-
         }
         else if (e.keyCode == 37) {
             this.isLeftPressed = true;
             this.carSprite = CAR_LEFT;
-
         }
         else if (e.keyCode == 38) {
             this.isUpPressed = true;
-
         }
         else if (e.keyCode == 40) {
             this.isDownPressed = true;
+        }
+        else if (e.keyCode == 32) {
+       //     if (this.player.nitro > MAX_NITRO * 0.2)
+                this.isSpacePressed = true;
         }
     }
 
@@ -158,6 +168,9 @@ class Game {
         }
         else if (e.keyCode == 40) {
             this.isDownPressed = false;
+        }
+        else if (e.keyCode == 32) {
+            this.isSpacePressed = false;
         }
     }
 

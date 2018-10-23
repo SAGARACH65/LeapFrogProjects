@@ -1,4 +1,3 @@
-
 //////////////////////////////////////////////constants used in Game.js////////////////////////////////////////////////////
 const trackMap = [
     { type: 'straight', number: 100, curvature: 0 },
@@ -6,6 +5,10 @@ const trackMap = [
     { type: 'straight', number: 300, curvature: 0 },
     { type: 'curve', number: 300, curvature: 65 },
     { type: 'curve', number: 300, curvature: 20 },
+    { type: 'straight', number: 300, curvature: 0 },
+    { type: 'curve', number: 300, curvature: -65 },
+    { type: 'straight', number: 300, curvature: 0 },
+    { type: 'curve', number: 300, curvature: 65 },
     { type: 'straight', number: 300, curvature: 0 },
 ];
 
@@ -18,7 +21,6 @@ const TOTAL_LENGTH_OF_ROAD = function () {
     return total + 140;
 }();
 
-
 //position of sprite in the spritesheet
 const CAR_CENTRE = {
     x: 0,
@@ -26,6 +28,7 @@ const CAR_CENTRE = {
     w: 69,
     h: 38
 };
+
 const CAR_LEFT = {
     x: 70,
     y: 130,
@@ -54,6 +57,8 @@ const ACCELERATION = MAX_SPEED / 150;
 const BREAKING = -MAX_SPEED / 30;
 const DECELERATION = -MAX_SPEED / 140;
 const TURNING_SPEED = 0.03;
+
+const MAX_NITRO = 400;
 
 
 //////////////////////////////////////////////constants used in Road.js////////////////////////////////////////////////////

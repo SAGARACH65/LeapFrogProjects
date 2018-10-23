@@ -63,19 +63,15 @@ class Road {
                 segment.p1.screenCoordinates.w, segment.p2.screenCoordinates.x, segment.p2.screenCoordinates.y, segment.p2.screenCoordinates.w,
                 segment.color);
         }
-        for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--) {
 
-            //trees are drawn every 12 segments so as to maintain sparsity
-            if (n % 10 === 0) {
-                this.drawTrees(ctx, this.segments[n]);
-            }
-        }
+        for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--)   //trees are drawn every 5 segments so as to maintain sparsity
+            if (n % 5 === 0) this.drawTrees(ctx, this.segments[n]);
+
     }
 
     drawTrees(ctx, currentSegment) {
 
         let sign = currentSegment.tree.sideToDrawTree;
-
 
         let treeScale = currentSegment.p2.screenCoordinates.scale;
         let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
@@ -144,5 +140,3 @@ class Road {
         return this.segments.findIndex(x => x === segment);
     }
 }
-  //    }
-            //     for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--) {
