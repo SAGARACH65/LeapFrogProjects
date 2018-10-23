@@ -19,7 +19,7 @@ class Game {
 
         //initialize the road object
         trackMap.map(sector => {
-            this.addRoad(sector.number / 2, sector.curvature)
+            this.addRoad(sector.number / 2, sector.curvature);
         });
 
         this.player = new Player();
@@ -101,14 +101,18 @@ class Game {
         if ((this.isLeftPressed || this.isRightPressed)
             && this.road.segments[this.road.findSegmentIndex(this.position)].curvature != 0) CAR_SKID.play();
     }
+
+
+
     drawDashBoard() {
         this.dashBoard.drawSteering(this.ctx);
         this.dashBoard.drawSpeedometer(this.ctx);
+        this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
     }
 
     gameLoop() {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.road.findSegmentIndex());
 
         // this.playSounds();
         this.drawBackground();

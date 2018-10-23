@@ -9,6 +9,15 @@ let drawPolygon = (ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) => {
     ctx.fill();
 }
 
+var drawRect = function (ctx, xPos, yPos, width, height, color) {
+    ctx.beginPath();
+    ctx.rect(xPos, yPos, width, height);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.closePath();
+}
+
+
 let drawImage = (ctx, src, x, y, width, height) => {
     let img = new Image();
     img.src = src;
