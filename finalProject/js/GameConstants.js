@@ -30,7 +30,7 @@ const CAR_RIGHT = {
     h: 38
 };
 
-
+//game Sounds
 const CAR_ACCELERATE = createSoundObject('../sounds/main-engine.wav');
 const CAR_DECELERATE = createSoundObject('../sounds/car+geardown.mp3');
 const CAR_SKID = createSoundObject('../sounds/skid.wav');
@@ -44,6 +44,7 @@ const ACCELERATION = MAX_SPEED / 150;
 const BREAKING = -MAX_SPEED / 30;
 const DECELERATION = -MAX_SPEED / 140;
 const TURNING_SPEED = 0.02;
+
 
 //////////////////////////////////////////////constants used in Road.js////////////////////////////////////////////////////
 const ROAD_PARAM = {

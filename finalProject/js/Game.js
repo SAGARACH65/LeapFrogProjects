@@ -23,6 +23,7 @@ class Game {
         });
 
         this.player = new Player();
+        this.dashBoard = new DashBoard();
 
         this.carSprite = CAR_CENTRE;
         this.spriteSheet = new Image();
@@ -100,6 +101,10 @@ class Game {
         if ((this.isLeftPressed || this.isRightPressed)
             && this.road.segments[this.road.findSegmentIndex(this.position)].curvature != 0) CAR_SKID.play();
     }
+    drawDashBoard() {
+        this.dashBoard.drawSteering(this.ctx);
+        this.dashBoard.drawSpeedometer(this.ctx);
+    }
 
     gameLoop() {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
@@ -109,6 +114,7 @@ class Game {
         this.drawBackground();
         this.drawRoad();
         this.drawPlayer();
+        this.drawDashBoard();
         this.update();
 
         requestAnimationFrame(this.gameLoop);

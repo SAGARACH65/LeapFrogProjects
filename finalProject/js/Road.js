@@ -62,8 +62,8 @@ class Road {
             this.renderSegment(ctx, ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.NO_OF_LANES, segment.p1.screenCoordinates.x, segment.p1.screenCoordinates.y,
                 segment.p1.screenCoordinates.w, segment.p2.screenCoordinates.x, segment.p2.screenCoordinates.y, segment.p2.screenCoordinates.w,
                 segment.color);
-       // }
-        // for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--) {
+            //    }
+            //     for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--) {
 
             //trees are drawn every 12 segments so as to maintain sparsity
             if (n % 10 === 0) {
@@ -75,11 +75,10 @@ class Road {
     drawTrees(ctx, currentSegment) {
 
         let sign = currentSegment.tree.sideToDrawTree;
-       
+
 
         let treeScale = currentSegment.p2.screenCoordinates.scale;
         let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
-        //    let spriteX = segment.p2.screenCoordinates.x +(spriteScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
 
         let treeY = currentSegment.p2.screenCoordinates.y;
 
@@ -87,7 +86,6 @@ class Road {
         let treeHeight = (currentSegment.tree.height * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
 
         treeX += sign * treeWidth;
-        // spriteX = spriteX + destW;
         treeY += - treeHeight;
 
         drawImage(ctx, currentSegment.tree.img, treeX, treeY, treeWidth, treeHeight);
