@@ -13,7 +13,7 @@ class DashBoard {
         ctx.translate(ROAD_PARAM.CANVAS_WIDTH - 300, ROAD_PARAM.CANVAS_HEIGHT - 200);
         // // rotate the canvas to the specified degrees
         ctx.rotate(degrees * Math.PI / 180);
-        drawImage(ctx, '../images/steering_wheel-.png', -100, -100, 200, 200);
+        drawImage(ctx, 'images/steering_wheel-.png', -100, -100, 200, 200);
 
         ctx.restore();
     }
@@ -40,7 +40,7 @@ class DashBoard {
 
     drawSpeedometer(ctx, currentSpeed, maxSpeed) {
 
-        drawImage(ctx, '../images/spedoMeterTrans.png', 150, ROAD_PARAM.CANVAS_HEIGHT - 440, 420, 420);
+        drawImage(ctx, 'images/spedoMeterTrans.png', 150, ROAD_PARAM.CANVAS_HEIGHT - 440, 420, 420);
         this.drawSpeed(ctx, currentSpeed, maxSpeed);
         this.drawSpeedNeedle(ctx, currentSpeed, maxSpeed);
         this.drawRPMNeedle(ctx, currentSpeed, maxSpeed);
@@ -60,7 +60,7 @@ class DashBoard {
         let width;
 
         //this is added just to stop the progress bar from moving beyond the background
-        (baseSegment <= totalSegments) ? width = baseSegment / totalSegments * 600 : width = 600;
+        width = (baseSegment <= totalSegments) ? baseSegment / totalSegments * 600 : 600;
 
         drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, width, 50, progressGradient);
 

@@ -1,5 +1,6 @@
 
 class Game {
+
     constructor() {
         this.canvas = document.getElementById("main-canvas");
         this.canvas.setAttribute('width', ROAD_PARAM.CANVAS_WIDTH);
@@ -82,7 +83,7 @@ class Game {
     }
 
     updateNitro() {
-        if ((this.road.findSegmentIndex(this.position) - this.currentSegment >= 7) && !this.isSpacePressed) {
+        if ((this.road.findSegmentIndex(this.position) - this.currentSegment >= DIFFERENCE_TO_INCREASE_NITRO) && !this.isSpacePressed) {
             this.player.increaseNitro();
 
             this.currentSegment = this.road.findSegmentIndex(this.position);
@@ -131,7 +132,7 @@ class Game {
     }
 
     drawBackground() {
-        drawImage(this.ctx, '../images/b.png', 0, 0, 1920, 549);
+        drawImage(this.ctx, 'images/b.png', 0, 0, 1920, 549);
     }
 
     drawPlayer() {
@@ -239,13 +240,14 @@ class Game {
     }
 
     start() {
-
+        console.log('hey');
         //loading the sprites
-        this.spriteSheet.src = "../images/spritesheet.high.png";
+        this.spriteSheet.src = "images/spritesheet.high.png";
+       
+            setInterval(this.gameLoop, 40);
+            CAR_START.play();
 
-        setInterval(this.gameLoop, 40);
 
-        CAR_START.play();
     }
 }
 

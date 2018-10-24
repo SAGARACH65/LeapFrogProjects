@@ -42,20 +42,27 @@ const CAR_RIGHT = {
     w: 77,
     h: 38
 };
+const DIFFERENCE_TO_INCREASE_NITRO = 7;
 
 //game Sounds
-const CAR_ACCELERATE = createSoundObject('../sounds/main-engine.wav');
-const CAR_DECELERATE = createSoundObject('../sounds/car+geardown.mp3');
-const CAR_SKID = createSoundObject('../sounds/skid.wav');
-const CAR_START = createSoundObject('../sounds/carstartgarage.mp3');
+const CAR_ACCELERATE = createSoundObject('sounds/main-engine.wav');
+const CAR_DECELERATE = createSoundObject('sounds/car+geardown.mp3');
+const CAR_SKID = createSoundObject('sounds/skid.wav');
+const CAR_START = createSoundObject('sounds/carstartgarage.mp3');
 
 
 //////////////////////////////////////////////constants used in Player.js////////////////////////////////////////////////////
+const OFF_ROAD_FRACTION_SPEED_DECREASE = 4;
+const ACCELERATION_FRACTION_DECREASE = 150;
+const BREAKING_FRACTION_DECREASE = 30;
+const DECELERATION_FRACTION_SPEED_DECREASE = 140;
+
 const MAX_SPEED = 950;
-const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
-const ACCELERATION = MAX_SPEED / 150;
-const BREAKING = -MAX_SPEED / 30;
-const DECELERATION = -MAX_SPEED / 140;
+const OFF_ROAD_MAX_SPEED = MAX_SPEED / OFF_ROAD_FRACTION_SPEED_DECREASE;
+const ACCELERATION = MAX_SPEED / ACCELERATION_FRACTION_DECREASE;
+const BREAKING = -MAX_SPEED / BREAKING_FRACTION_DECREASE;
+const DECELERATION = -MAX_SPEED / DECELERATION_FRACTION_SPEED_DECREASE;
+
 const TURNING_SPEED = 0.05;
 const CENTRIFUGAL_FORCE = 0.0007;
 const PLAYER_WIDTH = 200;
@@ -82,6 +89,6 @@ const ROAD_PARAM = {
 }
 
 const TREES = [
-    { img: '../images/tree.png', width: 64, height: 154 },
-    { img: '../images/tree2.png', width: 62, height: 95 },
+    { img: 'images/tree.png', width: 64, height: 154 },
+    { img: 'images/tree2.png', width: 62, height: 95 },
 ];
