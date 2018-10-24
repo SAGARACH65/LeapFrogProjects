@@ -46,9 +46,15 @@ class DashBoard {
 
         let colorIncrement = baseSegment / totalSegments * 200;
 
-        //gives different color depending on the progress
-        drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, baseSegment / totalSegments * 600, 50,
-            `rgb(${255 - colorIncrement},${51 + colorIncrement},${0 + colorIncrement})`);
+        // //gives different color depending on the progress
+        // drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, baseSegment / totalSegments * 600, 50,
+        //     `rgb(${255 - colorIncrement},${51 + colorIncrement},${0 + colorIncrement})`);
+
+        let progressGradient = ctx.createLinearGradient(0, 0, 1000, 0)
+        progressGradient.addColorStop(0, '#43e97b ');
+        progressGradient.addColorStop(1, '#38f9d7');
+        drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, baseSegment / totalSegments * 600, 50, progressGradient);
+
     }
 
     drawNitroMeter(ctx, fullNitro, remainingNitro) {
@@ -56,7 +62,17 @@ class DashBoard {
         drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -550, 'rgba(0, 0, 0, 0.3)');
 
         let percentageCompleted = remainingNitro / fullNitro;
-        drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(percentageCompleted * 550),
-            (percentageCompleted < 0.6) ? '#0BBEFC' : '#FFDD45');
+        let speedGradient, speedGradient2;
+        if (percentageCompleted < 0.6) {
+            speedGradient = ctx.createLinearGradient(0, 500, 0, 0)
+            speedGradient.addColorStop(0, '#00b8fe');
+            speedGradient.addColorStop(1, '#42dcf4');
+        }
+        {
+            speedGradient2 = ctx.createLinearGradient(0, 1000, 0, 0)
+            speedGradient2.addColorStop(0, '#f7b733');
+            speedGradient2.addColorStop(1, '#fc4a1a');
+        }
+        drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(percentageCompleted * 550), speedGradient || speedGradient2);
     }
 }

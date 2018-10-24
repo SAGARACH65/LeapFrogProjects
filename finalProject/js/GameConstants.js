@@ -6,10 +6,10 @@ const trackMap = [
     { type: 'curve', number: 300, curvature: 65 },
     { type: 'curve', number: 300, curvature: 20 },
     { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: -65 },
-    { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: 65 },
-    { type: 'straight', number: 300, curvature: 0 },
+    // { type: 'curve', number: 300, curvature: -65 },
+    // { type: 'straight', number: 300, curvature: 0 },
+    // { type: 'curve', number: 300, curvature: 65 },
+    // { type: 'straight', number: 300, curvature: 0 },
 ];
 
 const TOTAL_LENGTH_OF_ROAD = function () {
