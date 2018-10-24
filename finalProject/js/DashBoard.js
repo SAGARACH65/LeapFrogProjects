@@ -20,22 +20,26 @@ class DashBoard {
 
     drawSpeed(ctx, currentSpeed, maxSpeed) {
         let speed = Math.ceil(currentSpeed / maxSpeed * 160);
-        ctx.font = '700 60px Open Sans';
+        ctx.font = '700 54px Open Sans';
         ctx.textAlign = 'center';
         ctx.fillStyle = 'white';
-        ctx.fillText(speed, 360, 843);
+        ctx.fillText(speed, 360, 820);
     }
-    drawSpeedNeedle() {
+    drawSpeedNeedle(ctx, currentSpeed, maxSpeed) {
+        let colorGradient = ctx.createLinearGradient(0, 500, 0, 0);
+        colorGradient.addColorStop(0, '#00b8fe');
+        colorGradient.addColorStop(1, '#41dcf4');
 
+        drawSpeedoMeterArc(ctx, currentSpeed, maxSpeed, colorGradient);
     }
     drawRPMNeedle() {
 
     }
     drawSpeedometer(ctx, currentSpeed, maxSpeed) {
 
-        drawImage(ctx, '../images/spedoMeter.png', 150, ROAD_PARAM.CANVAS_HEIGHT - 420, 421, 421);
+        drawImage(ctx, '../images/spedoMeterTrans.png', 150, ROAD_PARAM.CANVAS_HEIGHT - 440, 420, 420);
         this.drawSpeed(ctx, currentSpeed, maxSpeed);
-        this.drawSpeedNeedle();
+        this.drawSpeedNeedle(ctx, currentSpeed, maxSpeed);
         this.drawRPMNeedle();
     }
 
@@ -51,7 +55,7 @@ class DashBoard {
         //     `rgb(${255 - colorIncrement},${51 + colorIncrement},${0 + colorIncrement})`);
 
         let progressGradient = ctx.createLinearGradient(0, 0, 1000, 0)
-        progressGradient.addColorStop(0, '#43e97b ');
+        progressGradient.addColorStop(0, '#43e97b');
         progressGradient.addColorStop(1, '#38f9d7');
         drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, baseSegment / totalSegments * 600, 50, progressGradient);
 
@@ -63,6 +67,7 @@ class DashBoard {
 
         let percentageCompleted = remainingNitro / fullNitro;
         let speedGradient, speedGradient2;
+
         if (percentageCompleted < 0.6) {
             speedGradient = ctx.createLinearGradient(0, 500, 0, 0)
             speedGradient.addColorStop(0, '#00b8fe');
@@ -73,6 +78,7 @@ class DashBoard {
             speedGradient2.addColorStop(0, '#f7b733');
             speedGradient2.addColorStop(1, '#fc4a1a');
         }
+
         drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(percentageCompleted * 550), speedGradient || speedGradient2);
     }
 }
