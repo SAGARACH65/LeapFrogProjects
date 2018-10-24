@@ -82,5 +82,3 @@ const TREES = [
     { img: '../images/tree.png', width: 64, height: 154 },
     { img: '../images/tree2.png', width: 62, height: 95 }
 ];
-
-

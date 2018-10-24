@@ -1,7 +1,3 @@
-/**
- * It draws the speedometer and the steering on the screen
- */
-
 class DashBoard {
     constructor() {
     }
@@ -22,8 +18,25 @@ class DashBoard {
         ctx.restore();
     }
 
-    drawSpeedometer(ctx) {
+    drawSpeed(ctx, currentSpeed, maxSpeed) {
+        let speed = Math.ceil(currentSpeed / maxSpeed * 160);
+        ctx.font = '700 60px Open Sans';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'white';
+        ctx.fillText(speed, 360, 843);
+    }
+    drawSpeedNeedle() {
+
+    }
+    drawRPMNeedle() {
+
+    }
+    drawSpeedometer(ctx, currentSpeed, maxSpeed) {
+
         drawImage(ctx, '../images/spedoMeter.png', 150, ROAD_PARAM.CANVAS_HEIGHT - 420, 421, 421);
+        this.drawSpeed(ctx, currentSpeed, maxSpeed);
+        this.drawSpeedNeedle();
+        this.drawRPMNeedle();
     }
 
     drawProgressBar(ctx, baseSegment, totalSegments) {
@@ -39,8 +52,11 @@ class DashBoard {
     }
 
     drawNitroMeter(ctx, fullNitro, remainingNitro) {
-
+        //background of the progress bar
         drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -550, 'rgba(0, 0, 0, 0.3)');
-        drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(remainingNitro / fullNitro * 550), '#0BBEFC');
+
+        let percentageCompleted = remainingNitro / fullNitro;
+        drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(percentageCompleted * 550),
+            (percentageCompleted < 0.6) ? '#0BBEFC' : '#FFDD45');
     }
 }

@@ -114,7 +114,7 @@ class Game {
 
     drawDashBoard() {
         this.dashBoard.drawSteering(this.ctx, this.isLeftPressed, this.isRightPressed);
-        this.dashBoard.drawSpeedometer(this.ctx);
+        this.dashBoard.drawSpeedometer(this.ctx,this.player.speed,MAX_SPEED);
         this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
         this.dashBoard.drawNitroMeter(this.ctx, MAX_NITRO, this.player.nitro);
     }
@@ -149,8 +149,7 @@ class Game {
             this.isDownPressed = true;
         }
         else if (e.keyCode == 32) {
-       //     if (this.player.nitro > MAX_NITRO * 0.2)
-                this.isSpacePressed = true;
+            this.isSpacePressed = true;
         }
     }
 
