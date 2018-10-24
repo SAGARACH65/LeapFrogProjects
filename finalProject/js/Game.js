@@ -9,6 +9,7 @@ class Game {
 
         this.position = 0;   //   Z position of the camera 
         this.currentSegment = 3;
+        this.isGameOver = false;
 
         //these 3 variables are used to show the initial countdown
         this.isInitialCountDownOngoing = true;
@@ -101,10 +102,16 @@ class Game {
     }
 
     checkAndHandleGameEnd() {
-        if (this.checkIfGameEnded()) {
-            document.removeEventListener('keydown', this.keyDownHandler, false);
-            document.removeEventListener('keyup', this.keyUpHandler, false);
+
+        if (this.checkIfGameEnded() && !this.isGameOver) {
+            this.removeEventListeners();
+
             this.isUpPressed = false;
+            this.isSpacePressed = false;
+
+            //this speed is added to counteract the condition when player enters exit zone with nitro and speed is very high to decelerate fast
+            this.player.speed = (this.player.speed > MAX_SPEED) ? MAX_SPEED : this.player.speed / 1.5;
+            this.isGameOver = true;
         }
     }
 
@@ -144,26 +151,35 @@ class Game {
         this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
         this.dashBoard.drawNitroMeter(this.ctx, MAX_NITRO, this.player.nitro);
     }
+
+    addEventListeners() {
+        document.addEventListener('keydown', this.keyDownHandler, false);
+        document.addEventListener('keyup', this.keyUpHandler, false);
+    }
+
+    removeEventListeners() {
+        document.removeEventListener('keydown', this.keyDownHandler, false);
+        document.removeEventListener('keyup', this.keyUpHandler, false);
+    }
+
     showInitialCountDown() {
-        if (this.isInitialCountDownOngoing) writeText(this.ctx, this.canvas.width / 2, 220, this.initialCountDownValue, '700 100px  PerfectDark', 'white');
+        if (this.isInitialCountDownOngoing)
+            writeText(this.ctx, this.canvas.width / 2, 220, this.initialCountDownValue, '700 100px  PerfectDark', 'white');
 
         if (this.isInitialCountDownOngoing && !this.isInTimeout) {
             this.isInTimeout = true;
             setTimeout(() => {
 
                 if (this.initialCountDownValue === 'GO!') {
-                   
-                    this.isInitialCountDownOngoing = false;
-                    document.addEventListener('keydown', this.keyDownHandler, false);
-                    document.addEventListener('keyup', this.keyUpHandler, false);
 
+                    this.isInitialCountDownOngoing = false;
+                    this.addEventListeners();
                 }
-                if (this.initialCountDownValue === 1) this.initialCountDownValue='GO!';
+
+                if (this.initialCountDownValue === 1) this.initialCountDownValue = 'GO!';
                 if (this.initialCountDownValue !== 'GO!') this.initialCountDownValue--;
                 this.isInTimeout = false;
-            }, 2000)
-
-
+            }, 1000)
         }
     }
 
@@ -178,7 +194,6 @@ class Game {
         this.drawDashBoard();
         this.update();
         this.showInitialCountDown();
-
 
         // requestAnimationFrame(this.gameLoop);
     }

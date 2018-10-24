@@ -75,8 +75,8 @@ class DashBoard {
         let percentageCompleted = remainingNitro / fullNitro;
         let speedGradient, speedGradient2;
 
-        (percentageCompleted < 0.6) ? (speedGradient = makeGradient(ctx, '#42dcf4', '#00b8fe'))
-            : (speedGradient2 = makeGradient(ctx, '#f7b733', '#fc4a1a'))
+        (percentageCompleted < 0.6) ? (speedGradient = makeGradient(ctx, '#00b8fe', '#42dcf4'))
+            : (speedGradient2 = makeGradient(ctx, '#fc4a1a', '#f7b733'))
 
         drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(percentageCompleted * 550), speedGradient || speedGradient2);
     }
