@@ -35,6 +35,7 @@ class Game {
 
         this.carSprite = CAR_CENTRE;
         this.spriteSheet = new Image();
+        this.backGroundImg = new Image();
 
         this.drawPlayer = this.drawPlayer.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
@@ -132,7 +133,7 @@ class Game {
     }
 
     drawBackground() {
-        drawImage(this.ctx, 'images/b.png', 0, 0, 1920, 549);
+        this.ctx.drawImage(this.backGroundImg, 0, 0, 1920, 549);
     }
 
     drawPlayer() {
@@ -240,13 +241,16 @@ class Game {
     }
 
     start() {
-        console.log('hey');
-        //loading the sprites
-        this.spriteSheet.src = "images/spritesheet.high.png";
-       
-            setInterval(this.gameLoop, 40);
-            CAR_START.play();
 
+        //loading the two biggest  images at first
+        this.spriteSheet.onload = () => {
+            this.backGroundImg.onload = () => {
+                setInterval(this.gameLoop, 40);
+                CAR_START.play();
+            }
+            this.backGroundImg.src = "images/b.png";
+        }
+        this.spriteSheet.src = "images/spritesheet.high.png";
 
     }
 }
