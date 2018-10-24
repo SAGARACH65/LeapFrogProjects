@@ -11,12 +11,14 @@ class Player {
     }
 
     updateXInCurve(curveValue) {
-        if (this.speed > 50) this.playerX -= curveValue * 0.0004;
+        if (this.speed > 50) this.playerX -= curveValue * CENTRIFUGAL_FORCE;
     }
+  
 
     increaseNitro() {
         if (this.nitro + MAX_NITRO / 100 <= MAX_NITRO) this.nitro += MAX_NITRO / 100;
     }
+
     decreaseNitro() {
         (this.nitro - MAX_NITRO / 10 >= 0) ? this.nitro -= MAX_NITRO / 50 : this.nitro = 0;
     }
@@ -31,8 +33,8 @@ class Player {
         //changes max speed depending upon nitro
         if (buttonState.isSpacePressed && this.nitro > 0) {
 
-            currentMaxSpeed *= 10;
-            currentAcceleration *= 10;
+            currentMaxSpeed *= NITRO_INCREMENT;
+            currentAcceleration *= NITRO_INCREMENT;
             this.decreaseNitro();
         }
 
@@ -51,7 +53,7 @@ class Player {
 
     draw(ctx, spriteSheet, sprite, destX, destY) {
         ctx.drawImage(spriteSheet, sprite.x, sprite.y, sprite.w,
-            sprite.h, destX, destY, 200, 150);
+            sprite.h, destX, destY, PLAYER_WIDTH, PLAYER_HEIGHT);
     }
 
 }   

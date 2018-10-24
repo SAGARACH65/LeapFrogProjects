@@ -1,25 +1,25 @@
 //////////////////////////////////////////////constants used in Game.js////////////////////////////////////////////////////
 const trackMap = [
     { type: 'straight', number: 100, curvature: 0 },
-    { type: 'curve', number: 300, curvature: -65 },
-    { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: 65 },
-    { type: 'curve', number: 300, curvature: 20 },
-    { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: -65 },
-    { type: 'straight', number: 300, curvature: 0 },
-    { type: 'curve', number: 300, curvature: 65 },
-    { type: 'straight', number: 300, curvature: 0 },
+    // { type: 'curve', number: 300, curvature: -65 },
+    // { type: 'straight', number: 300, curvature: 0 },
+    // { type: 'curve', number: 300, curvature: 65 },
+    // { type: 'curve', number: 300, curvature: -20 },
+    // { type: 'straight', number: 300, curvature: 0 },
+    // { type: 'curve', number: 300, curvature: -65 },
+    // { type: 'straight', number: 300, curvature: 0 },
+    // { type: 'curve', number: 300, curvature: 65 },
+    { type: 'straight', number: 500, curvature: 0 },
 ];
 
-const TOTAL_LENGTH_OF_ROAD = function () {
+const TOTAL_LENGTH_OF_ROAD = (() => {
     let total = 0;
     for (let i = 0; i < trackMap.length - 1; i++)
         total += trackMap[i].number;
 
     //140 is added as we havent added the last sector
     return total + 140;
-}();
+})();
 
 //position of sprite in the spritesheet
 const CAR_CENTRE = {
@@ -56,9 +56,12 @@ const OFF_ROAD_MAX_SPEED = MAX_SPEED / 4;
 const ACCELERATION = MAX_SPEED / 150;
 const BREAKING = -MAX_SPEED / 30;
 const DECELERATION = -MAX_SPEED / 140;
-const TURNING_SPEED = 0.03;
-
+const TURNING_SPEED = 0.05;
+const CENTRIFUGAL_FORCE = 0.0007;
+const PLAYER_WIDTH = 200;
+const PLAYER_HEIGHT = 150;
 const MAX_NITRO = 400;
+const NITRO_INCREMENT = 14;
 
 
 //////////////////////////////////////////////constants used in Road.js////////////////////////////////////////////////////
@@ -80,5 +83,5 @@ const ROAD_PARAM = {
 
 const TREES = [
     { img: '../images/tree.png', width: 64, height: 154 },
-    { img: '../images/tree2.png', width: 62, height: 95 }
+    { img: '../images/tree2.png', width: 62, height: 95 },
 ];

@@ -14,33 +14,39 @@ class DashBoard {
         // // rotate the canvas to the specified degrees
         ctx.rotate(degrees * Math.PI / 180);
         drawImage(ctx, '../images/steering_wheel-.png', -100, -100, 200, 200);
-        // done with the rotating so restore the unrotated context
+
         ctx.restore();
     }
 
     drawSpeed(ctx, currentSpeed, maxSpeed) {
         let speed = Math.ceil(currentSpeed / maxSpeed * 160);
-        ctx.font = '700 54px Open Sans';
+        ctx.font = '700 54px  Sans';
         ctx.textAlign = 'center';
         ctx.fillStyle = 'white';
         ctx.fillText(speed, 360, 820);
     }
+
     drawSpeedNeedle(ctx, currentSpeed, maxSpeed) {
-        let colorGradient = ctx.createLinearGradient(0, 500, 0, 0);
-        colorGradient.addColorStop(0, '#00b8fe');
-        colorGradient.addColorStop(1, '#41dcf4');
+        let colorGradient = makeGradient(ctx, '#41dcf4', '#00b8fe');
 
-        drawSpeedoMeterArc(ctx, currentSpeed, maxSpeed, colorGradient);
+        drawSpeedoMeterArc(ctx, colorGradient, 360, ROAD_PARAM.CANVAS_HEIGHT - 230, 186, 0.6 * Math.PI,
+            calculateSpeedAngle(currentSpeed / maxSpeed, 83, 35) * Math.PI);
     }
-    drawRPMNeedle() {
 
+    drawRPMNeedle(ctx, currentSpeed, maxSpeed) {
+        let colorGradient = makeGradient(ctx, '#f7b733', '#fc4a1a');
+
+        let rpm = currentSpeed / maxSpeed * 7;
+        drawSpeedoMeterArc(ctx, colorGradient, 360, ROAD_PARAM.CANVAS_HEIGHT - 230, 186, .4 * Math.PI,
+            calculateRPMAngle(rpm, 0, 22) * Math.PI, true);
     }
+
     drawSpeedometer(ctx, currentSpeed, maxSpeed) {
 
         drawImage(ctx, '../images/spedoMeterTrans.png', 150, ROAD_PARAM.CANVAS_HEIGHT - 440, 420, 420);
         this.drawSpeed(ctx, currentSpeed, maxSpeed);
         this.drawSpeedNeedle(ctx, currentSpeed, maxSpeed);
-        this.drawRPMNeedle();
+        this.drawRPMNeedle(ctx, currentSpeed, maxSpeed);
     }
 
     drawProgressBar(ctx, baseSegment, totalSegments) {
@@ -48,36 +54,32 @@ class DashBoard {
         //drawing the background of the progressBar;
         drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, 600, 50, 'rgba(0, 0, 0, 0.3)');
 
-        let colorIncrement = baseSegment / totalSegments * 200;
-
+        // let colorIncrement = baseSegment / totalSegments * 200;
         // //gives different color depending on the progress
         // drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, baseSegment / totalSegments * 600, 50,
         //     `rgb(${255 - colorIncrement},${51 + colorIncrement},${0 + colorIncrement})`);
 
-        let progressGradient = ctx.createLinearGradient(0, 0, 1000, 0)
-        progressGradient.addColorStop(0, '#43e97b');
-        progressGradient.addColorStop(1, '#38f9d7');
-        drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, baseSegment / totalSegments * 600, 50, progressGradient);
+        let progressGradient = makeGradient(ctx, '#43e97b', '#38f9d7');
+        let width;
+
+        //this is added just to stop the progress bar from moving beyond the background
+        (baseSegment <= totalSegments) ? width = baseSegment / totalSegments * 600 : width = 600;
+
+        drawRect(ctx, 700, ROAD_PARAM.CANVAS_HEIGHT - 150, width, 50, progressGradient);
 
     }
 
+
     drawNitroMeter(ctx, fullNitro, remainingNitro) {
+
         //background of the progress bar
         drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -550, 'rgba(0, 0, 0, 0.3)');
 
         let percentageCompleted = remainingNitro / fullNitro;
         let speedGradient, speedGradient2;
 
-        if (percentageCompleted < 0.6) {
-            speedGradient = ctx.createLinearGradient(0, 500, 0, 0)
-            speedGradient.addColorStop(0, '#00b8fe');
-            speedGradient.addColorStop(1, '#42dcf4');
-        }
-        {
-            speedGradient2 = ctx.createLinearGradient(0, 1000, 0, 0)
-            speedGradient2.addColorStop(0, '#f7b733');
-            speedGradient2.addColorStop(1, '#fc4a1a');
-        }
+        (percentageCompleted < 0.6) ? (speedGradient = makeGradient(ctx, '#42dcf4', '#00b8fe'))
+            : (speedGradient2 = makeGradient(ctx, '#f7b733', '#fc4a1a'))
 
         drawRect(ctx, ROAD_PARAM.CANVAS_WIDTH - 100, 750, 50, -(percentageCompleted * 550), speedGradient || speedGradient2);
     }

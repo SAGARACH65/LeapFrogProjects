@@ -78,9 +78,30 @@ class Game {
     updateNitro() {
         if ((this.road.findSegmentIndex(this.position) - this.currentSegment >= 7) && !this.isSpacePressed) {
             this.player.increaseNitro();
+
             this.currentSegment = this.road.findSegmentIndex(this.position);
         }
     }
+
+    updatePlayerXPos() {
+        //we only update the x position only if car has certain speed   
+        if (this.player.speed > 0) {
+            if (this.isLeftPressed) this.player.updateX(-1);
+            if (this.isRightPressed) this.player.updateX(+1);
+        }
+    }
+
+    checkIfGameEnded() {
+        return (this.road.findSegmentIndex(this.position) > TOTAL_LENGTH_OF_ROAD) ? true : false;
+    }
+
+    checkAndHandleGameEnd() {
+        if (this.checkIfGameEnded()) {
+            document.removeEventListener('keydown', this.keyDownHandler, false);
+            document.removeEventListener('keyup', this.keyUpHandler, false);
+        }
+    }
+
     update() {
         this.updateNitro();
 
@@ -89,12 +110,11 @@ class Game {
         //we create a illusion of curve by moving the car as per the curve
         this.updatePlayerAsPerCurve();
 
-        //we only update the x position only if car has certain speed   
-        if (this.player.speed > 0) {
-            if (this.isLeftPressed) this.player.updateX(-1);
-            if (this.isRightPressed) this.player.updateX(+1);
-        }
+        this.updatePlayerXPos();
+
         this.position += this.player.speed;
+
+        this.checkAndHandleGameEnd();
     }
 
     drawBackground() {
@@ -114,7 +134,7 @@ class Game {
 
     drawDashBoard() {
         this.dashBoard.drawSteering(this.ctx, this.isLeftPressed, this.isRightPressed);
-        this.dashBoard.drawSpeedometer(this.ctx,this.player.speed,MAX_SPEED);
+        this.dashBoard.drawSpeedometer(this.ctx, this.player.speed, MAX_SPEED);
         this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
         this.dashBoard.drawNitroMeter(this.ctx, MAX_NITRO, this.player.nitro);
     }
@@ -130,7 +150,7 @@ class Game {
         this.drawDashBoard();
         this.update();
 
-        requestAnimationFrame(this.gameLoop);
+        // requestAnimationFrame(this.gameLoop);
     }
 
     keyDownHandler(e) {
@@ -181,7 +201,7 @@ class Game {
         //loading the sprites
         this.spriteSheet.src = "../images/spritesheet.high.png";
 
-        requestAnimationFrame(this.gameLoop);
+        setInterval(this.gameLoop, 40);
 
         CAR_START.play();
     }

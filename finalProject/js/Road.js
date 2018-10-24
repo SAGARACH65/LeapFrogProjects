@@ -39,6 +39,25 @@ class Road {
         else return (((generateRandomNO(-1, 2) <= 0) ? 1 : -1.5));
     }
 
+    drawTrees(ctx, currentSegment) {
+
+        let sign = currentSegment.tree.sideToDrawTree;
+
+        let treeScale = currentSegment.p2.screenCoordinates.scale;
+        let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
+
+        let treeY = currentSegment.p2.screenCoordinates.y;
+
+        let treeWidth = (currentSegment.tree.width * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
+        let treeHeight = (currentSegment.tree.height * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
+
+        treeX += sign * treeWidth;
+        treeY += - treeHeight;
+
+        drawImage(ctx, currentSegment.tree.img, treeX, treeY, treeWidth, treeHeight);
+    }
+
+
     drawRoad(ctx, position, playerX) {
         let baseSegmentIndex = this.findSegmentIndex(position);
 
@@ -59,32 +78,15 @@ class Road {
             //the segments that are behind us dont need to be rendered
             if ((segment.p2.screenCoordinates.y >= ROAD_PARAM.CANVAS_HEIGHT)) continue;
 
-            this.renderSegment(ctx, ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.NO_OF_LANES, segment.p1.screenCoordinates.x, segment.p1.screenCoordinates.y,
+            this.renderSegment(ctx, n, ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.NO_OF_LANES, segment.p1.screenCoordinates.x, segment.p1.screenCoordinates.y,
                 segment.p1.screenCoordinates.w, segment.p2.screenCoordinates.x, segment.p2.screenCoordinates.y, segment.p2.screenCoordinates.w,
                 segment.color);
         }
 
-        for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--)   //trees are drawn every 5 segments so as to maintain sparsity
+        for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--)
+            //trees are drawn every 5 segments so as to maintain sparsity
             if (n % 5 === 0) this.drawTrees(ctx, this.segments[n]);
 
-    }
-
-    drawTrees(ctx, currentSegment) {
-
-        let sign = currentSegment.tree.sideToDrawTree;
-
-        let treeScale = currentSegment.p2.screenCoordinates.scale;
-        let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
-
-        let treeY = currentSegment.p2.screenCoordinates.y;
-
-        let treeWidth = (currentSegment.tree.width * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
-        let treeHeight = (currentSegment.tree.height * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
-
-        treeX += sign * treeWidth;
-        treeY += - treeHeight;
-
-        drawImage(ctx, currentSegment.tree.img, treeX, treeY, treeWidth, treeHeight);
     }
 
     project(p, cameraX, cameraY, cameraZ, CAMERA_DEPTH, CANVAS_WIDTH, CANVAS_HEIGHT, WIDTH) {
@@ -103,7 +105,12 @@ class Road {
         p.screenCoordinates.w = Math.round((p.screenCoordinates.scale * WIDTH * CANVAS_WIDTH / 2));
     }
 
-    renderSegment(ctx, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
+    renderFinishAndStartLines(ctx, currentSegment, x1, y1, w1, x2, y2, w2) {
+        if ((currentSegment >= TOTAL_LENGTH_OF_ROAD && currentSegment <= TOTAL_LENGTH_OF_ROAD + 3) || ((currentSegment <= 9) && currentSegment >= 7))
+            drawPolygon(ctx, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, (currentSegment % 2 === 0) ? 'black' : 'white');
+    }
+
+    renderSegment(ctx, currentSegment, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
 
         let r1 = w1 / 10,
             r2 = w2 / 10,
@@ -112,12 +119,18 @@ class Road {
 
         let laneW1, laneW2, laneX1, laneX2;
 
+
         ctx.fillStyle = color.grass;
         ctx.fillRect(0, y2, CANVAS_WIDTH, y1 - y2);
 
         drawPolygon(ctx, x1 - w1 - r1, y1, x1 - w1, y1, x2 - w2, y2, x2 - w2 - r2, y2, color.sideStrip);
         drawPolygon(ctx, x1 + w1 + r1, y1, x1 + w1, y1, x2 + w2, y2, x2 + w2 + r2, y2, color.sideStrip);
+
+
         drawPolygon(ctx, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, color.road);
+
+        //draws start and finish lines
+        this.renderFinishAndStartLines(ctx, currentSegment, x1, y1, w1, x2, y2, w2);
 
         //width and x positon of the starting lane
         laneW1 = w1 * 2 / LANES;
@@ -132,6 +145,7 @@ class Road {
             laneX1 += laneW1;
             laneX2 += laneW2;
         }
+
     }
 
     //finds the segment depending on the z value provided
