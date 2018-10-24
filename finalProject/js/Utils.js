@@ -16,6 +16,13 @@ const makeGradient = (ctx, startColor, endColor) => {
     return speedGradient;
 }
 
+const writeText = (ctx, x, y, text, font, color) => {
+    ctx.font = font;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y);
+}
+
 const drawRect = (ctx, xPos, yPos, width, height, color) => {
     ctx.beginPath();
     ctx.fillStyle = color;

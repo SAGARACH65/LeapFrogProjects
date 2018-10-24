@@ -10,6 +10,11 @@ class Game {
         this.position = 0;   //   Z position of the camera 
         this.currentSegment = 3;
 
+        //these 3 variables are used to show the initial countdown
+        this.isInitialCountDownOngoing = true;
+        this.initialCountDownValue = 3;
+        this.isInTimeout = false;
+
         this.isRightPressed = false;
         this.isLeftPressed = false;
         this.isUpPressed = false;
@@ -99,6 +104,7 @@ class Game {
         if (this.checkIfGameEnded()) {
             document.removeEventListener('keydown', this.keyDownHandler, false);
             document.removeEventListener('keyup', this.keyUpHandler, false);
+            this.isUpPressed = false;
         }
     }
 
@@ -138,6 +144,28 @@ class Game {
         this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
         this.dashBoard.drawNitroMeter(this.ctx, MAX_NITRO, this.player.nitro);
     }
+    showInitialCountDown() {
+        if (this.isInitialCountDownOngoing) writeText(this.ctx, this.canvas.width / 2, 220, this.initialCountDownValue, '700 100px  PerfectDark', 'white');
+
+        if (this.isInitialCountDownOngoing && !this.isInTimeout) {
+            this.isInTimeout = true;
+            setTimeout(() => {
+
+                if (this.initialCountDownValue === 'GO!') {
+                   
+                    this.isInitialCountDownOngoing = false;
+                    document.addEventListener('keydown', this.keyDownHandler, false);
+                    document.addEventListener('keyup', this.keyUpHandler, false);
+
+                }
+                if (this.initialCountDownValue === 1) this.initialCountDownValue='GO!';
+                if (this.initialCountDownValue !== 'GO!') this.initialCountDownValue--;
+                this.isInTimeout = false;
+            }, 2000)
+
+
+        }
+    }
 
     gameLoop() {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
@@ -149,6 +177,8 @@ class Game {
         this.drawPlayer();
         this.drawDashBoard();
         this.update();
+        this.showInitialCountDown();
+
 
         // requestAnimationFrame(this.gameLoop);
     }
@@ -194,9 +224,6 @@ class Game {
     }
 
     start() {
-        //initial setup for the game
-        document.addEventListener('keydown', this.keyDownHandler, false);
-        document.addEventListener('keyup', this.keyUpHandler, false);
 
         //loading the sprites
         this.spriteSheet.src = "../images/spritesheet.high.png";

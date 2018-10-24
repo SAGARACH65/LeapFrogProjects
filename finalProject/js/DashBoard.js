@@ -20,10 +20,7 @@ class DashBoard {
 
     drawSpeed(ctx, currentSpeed, maxSpeed) {
         let speed = Math.ceil(currentSpeed / maxSpeed * 160);
-        ctx.font = '700 54px  Sans';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = 'white';
-        ctx.fillText(speed, 360, 820);
+        writeText(ctx, 360, 820, speed, '700 45px  NeuroPol', 'white');
     }
 
     drawSpeedNeedle(ctx, currentSpeed, maxSpeed) {
