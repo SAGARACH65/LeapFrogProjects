@@ -108,15 +108,12 @@ body {
     margin-right: 11px;
 }
 
-
 .main-content {
     padding-left: 30px;
     padding-right: 20px;
     float: right;
     width: 67.5496688742%;
 }
-
-
 
 .main-container2 {
     width: 58.6875em;
@@ -131,7 +128,6 @@ body {
 }
 
 .navigation-bar {
-
     background-image: url('../images/tab-top.png');
     background-position: center
 }
@@ -195,91 +191,94 @@ body {
     color: #fff;
 }
 
-
 @media only screen and (max-width: 768px) {
-
+    .main-header {
+        width: 48em;
+    }
+    .main-container2 {
+        width: 44.9em;
+        
+    }
+    .wrapper-sub-header {
+        width: 48em;
+    }
+    .bottom-nav-ul {
+        width: 100%;
+    }
+    .header-notification {
+        width: 37%;
+    }
+    .input-search {
+        margin-top: 18px;
+        width: 70.402%;
+    }
+    .header-info {
+        width: 19.385%;
+        float: right;
+        margin-top: 4px;
+        font-size: 10px;
+        margin-right: 40px;
+    }
     .left-logo {
         width: 61.980830%;
         margin-left: 15px;
     }
-
     .footer {
-        width:100%;
+        width: 100%;
     }
-
     .footer-right {
         margin-left: 360px;
         float: none;
     }
-
+    .right-navigation {
+        margin-right: 0px;
+        width: 22.85%;
+    }
     .app-name {
         width: 100%;
         float: none;
         margin-bottom: 10px;
     }
-
     .input-search {
-
         float: none;
     }
-
     .bottom-nav-ul {
-        width: 100%;
+        width: 97%;
         float: none;
         margin-left: 15px;
         margin-bottom: 10px;
     }
-
-
-
     .header-notification {
         float: none;
         margin-left: 15px;
     }
-
     .wrapper-sub-header {
         padding-bottom: 10px;
     }
-
-    .header-info {
-        float: left;
-    }
-
-
-
     .left-navigation {
         display: none;
         width: 0px;
     }
-
     .main-container2 {
         background-image: none;
     }
-
     .left-container {
-        width: 55.2201597444%;
-
+        width: 71.22%;
     }
-
     .right-navigation {
         float: left;
         width: 17.8498402556%;
         margin-left: 50px;
     }
-
     .main-content {
         width: 100%;
-
         float: left
     }
-
     .bottom-nav-ul-bot {
         width: 50%;
+        width: 103% !important;
     }
-
     .main-bottom {
         width: 100%
     }
-
-
 }
