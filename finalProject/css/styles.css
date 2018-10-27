@@ -1,0 +1,16 @@
+@font-face {
+    font-family: PerfectDark;
+    src: url("../fonts/pdark.ttf");
+}
+
+@font-face {
+    font-family: NeuroPol;
+    src: url("../fonts/neuropol.ttf");
+}
+
+#main-canvas {
+    background: #000;
+    display: block;
+   
+    background-color: black;
+}
