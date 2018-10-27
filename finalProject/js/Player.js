@@ -4,17 +4,10 @@ class Player {
         this.playerX = 0;
         this.nitro = 0;
         this.rank = NO_OF_ENEMIES + 1;
+        this.behindEnemyName = '';
+        this.aheadEnemyName = '';
     }
 
-    calculateCurrentPosition(currentZ, enemiesArr, isGameOver) {
-        if (!isGameOver) {
-            let enemiesBehind = 0;
-            enemiesArr.map(enemy => {
-                if (enemy.zPos < currentZ) enemiesBehind++;
-            });
-            this.rank = NO_OF_ENEMIES - enemiesBehind + 1;
-        }
-    }
 
     //sign is the -1 or +1 depending on the 
     updateX(sign) {
@@ -34,6 +27,32 @@ class Player {
         (this.nitro - MAX_NITRO / NITRO_DECREASE_FACTOR >= 0) ? this.nitro -= MAX_NITRO / NITRO_DECREASE_FACTOR : this.nitro = 0;
     }
 
+    calculateCurrentPosition(currentZ, enemiesArr, isGameOver) {
+        //flag that checks if we found previous and next plaayer
+        let found = false;
+
+        if (!isGameOver) {
+            let enemiesBehind = 0;
+            enemiesArr.map((enemy, index) => {
+                if (enemy.zPos < currentZ) {
+                    enemiesBehind++;
+
+                    if (index === enemiesArr.length - 1) {
+                        this.behindEnemyName = enemiesArr[index].name;
+                        this.aheadEnemyName = '';
+                    }
+                } else {
+
+                    if (!found) {
+                        if (index != 0) this.behindEnemyName = enemiesArr[index - 1].name;
+                        this.aheadEnemyName = enemiesArr[index].name;
+                        found = true;
+                    }
+                }
+            });
+            this.rank = NO_OF_ENEMIES - enemiesBehind + 1;
+        }
+    }
     updateSpeed(buttonState) {
         //changes the max speed and acceleration depending upon the position on the road and nitro
         let currentMaxSpeed, currentAcceleration = ACCELERATION;

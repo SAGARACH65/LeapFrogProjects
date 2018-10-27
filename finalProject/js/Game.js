@@ -34,7 +34,7 @@ class Game {
         this.enemies = [];
         //creating enemies dynamically
         for (let x = 0; x < NO_OF_ENEMIES; x++)
-            this.enemies.push(new Enemies((x + 1) / 2.5 * 500, x, (x + 1) / 2.5 * 10000, x));
+            this.enemies.push(new Enemies((x + 1) / 2.5 * 500, x, (x + 1) / 2.5 * 10000, PLAYER_NAME[x] || ('PLAYER' + x)));
 
         this.player = new Player();
         this.dashBoard = new DashBoard();
@@ -132,6 +132,7 @@ class Game {
 
     calculatePlayerRank() {
         this.player.calculateCurrentPosition(this.position, this.enemies, this.isGameOver);
+        console.log(this.player.behindEnemy, this.player.aheadEnemy);
     }
 
     update() {
@@ -190,11 +191,28 @@ class Game {
     }
 
     drawRank() {
-        let fontSize = 40 * HEIGHT_MULTIPLIER + 40;
+        let fontSize = 30 * HEIGHT_MULTIPLIER + 30;
         writeText(
             this.ctx,
-            this.canvas.width / 2, 950 * HEIGHT_MULTIPLIER + 950,
+            this.canvas.width / 2 + 50 * HEIGHT_MULTIPLIER + 50,
+            950 * HEIGHT_MULTIPLIER + 950,
             this.player.rank,
+            `700 ${fontSize}px  Neuropol`,
+            'white'
+        );
+        writeText(
+            this.ctx,
+            this.canvas.width / 2 - (170 * HEIGHT_MULTIPLIER + 170),
+            820 * HEIGHT_MULTIPLIER + 820,
+            this.player.aheadEnemyName,
+            `700 ${fontSize}px  Neuropol`,
+            'white'
+        );
+        writeText(
+            this.ctx,
+            this.canvas.width / 2 + 260 * HEIGHT_MULTIPLIER + 260,
+            940 * HEIGHT_MULTIPLIER + 940,
+            this.player.behindEnemyName,
             `700 ${fontSize}px  Neuropol`,
             'white'
         );
