@@ -34,7 +34,7 @@ class Game {
         this.enemies = [];
         //creating enemies dynamically
         for (let x = 0; x < NO_OF_ENEMIES; x++)
-            this.enemies.push(new Enemies((x + 1) / 2.5 * 500, x, (x + 1) / 2.5 * 10000, x));
+            this.enemies.push(new Enemies((x + 1) * 200, x, (x + 1) * 3300, x));
 
         this.player = new Player();
         this.dashBoard = new DashBoard();

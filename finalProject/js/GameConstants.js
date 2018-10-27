@@ -23,12 +23,33 @@ const TOTAL_LENGTH_OF_ROAD = (() => {
 })();
 
 //position of sprite in the spritesheet
-const CAR_CENTRE = { x: 0, y: 130, w: 69, h: 38 };
+const CAR_CENTRE = {
+    x: 0,
+    y: 130,
+    w: 69,
+    h: 38
+};
 
-const CAR_LEFT = { x: 70, y: 130, w: 77, h: 38 };
+const CAR_LEFT = {
+    x: 70,
+    y: 130,
+    w: 77,
+    h: 38
+};
 
-const CAR_RIGHT = { x: 148, y: 130, w: 77, h: 38 };
-
+const CAR_RIGHT = {
+    x: 148,
+    y: 130,
+    w: 77,
+    h: 38
+};
+const CAR_RIGHT2 = {
+    img: 'images/spritesheet.high.png',
+    x: 148,
+    y: 130,
+    width: 77,
+    height: 38
+};
 const DIFFERENCE_TO_INCREASE_NITRO = 7;
 
 //game Sounds

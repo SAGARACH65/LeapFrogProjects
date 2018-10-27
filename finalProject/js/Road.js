@@ -1,3 +1,4 @@
+let xx = 0;
 class Road {
 
     constructor() {
@@ -42,61 +43,40 @@ class Road {
 
         let sign = currentSegment.tree.sideToDrawTree;
 
-        let scale = currentSegment.p2.screenCoordinates.scale;
-        let xPos = currentSegment.p2.screenCoordinates.x +
-            sign * (scale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
+        let treeScale = currentSegment.p2.screenCoordinates.scale;
+        let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
 
-        let yPos = currentSegment.p2.screenCoordinates.y;
+        let treeY = currentSegment.p2.screenCoordinates.y;
 
-        let width = (currentSegment.tree.width * scale * ROAD_PARAM.CANVAS_WIDTH * 80);
-        let height = (currentSegment.tree.height * scale * ROAD_PARAM.CANVAS_WIDTH * 80);
+        let treeWidth = (currentSegment.tree.width * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
+        let treeHeight = (currentSegment.tree.height * treeScale * ROAD_PARAM.CANVAS_WIDTH * 80);
 
-        xPos += sign * width;
-        yPos += - height;
+        treeX += sign * treeWidth;
+        treeY += - treeHeight;
 
-        drawImage(ctx, currentSegment.tree.img, xPos, yPos, width, height);
+        drawImage(ctx, currentSegment.tree.img, treeX, treeY, treeWidth, treeHeight);
     }
 
 
     drawEnemyCars(ctx, currentSegmentIndex, currentSegment, enemiesArr) {
 
-        // spriteScale = Util.interpolate(segment.p1.screen.scale, segment.p2.screen.scale, car.percent);
-        // spriteX     = Util.interpolate(segment.p1.screen.x,     segment.p2.screen.x,     car.percent) + (spriteScale * car.offset * roadWidth * width/2);
-        // spriteY     = Util.interpolate(segment.p1.screen.y,     segment.p2.screen.y,     car.percent);
-
         enemiesArr.map(enemy => {
             //draw on the road segment if it is the one containing the enemy
             if (currentSegmentIndex === this.findSegmentIndex(enemy.zPos)) {
+                // let sign = currentSegment.tree.sideToDrawTree;
+                // console.log(currentSegment.p2.screenCoordinates.x);
+                let carScale = currentSegment.p2.screenCoordinates.scale;
+                let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
 
-                let percentRem = (currentSegment.p2.worldCoordinates.z - currentSegment.p1.worldCoordinates.z) /
-                    (currentSegment.p2.worldCoordinates.z - enemy.zPos);
-
-                // let percentRem = (enemy.zPos) / (TOTAL_LENGTH_OF_ROAD * ROAD_PARAM.SEGMENT_LENGTH);
-                //    console.log(percentageIn);
-
-
-                // let carScale = currentSegment.p2.screenCoordinates.scale;
-                // let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
-                // let carY = currentSegment.p2.screenCoordinates.y;
-                // let carScale = currentSegment.p2.screenCoordinates.scale * percentageRem + currentSegment.p2.screenCoordinates.scale;
-                // let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
-                // // carX += carX * percentageIn
-                // let carY = currentSegment.p2.screenCoordinates.y;
-                // // carY += carY * percentageIn
-
-                let carScale = currentSegment.p1.screenCoordinates.scale +
-                    (currentSegment.p2.screenCoordinates.scale - currentSegment.p2.screenCoordinates.scale) * percentRem;
-                let carX = currentSegment.p1.screenCoordinates.x +
-                    (currentSegment.p2.screenCoordinates.x - currentSegment.p2.screenCoordinates.x) * percentRem
-                    + currentSegment.p2.screenCoordinates.w / enemy.x;
-                let carY = currentSegment.p1.screenCoordinates.y +
-                    (currentSegment.p2.screenCoordinates.y - currentSegment.p2.screenCoordinates.y) * percentRem;
+                let carY = currentSegment.p2.screenCoordinates.y;
 
                 let carWidth = (PLAYER_WIDTH * carScale * ROAD_PARAM.CANVAS_WIDTH * 5.5);
                 let carHeight = (PLAYER_HEIGHT * carScale * ROAD_PARAM.CANVAS_WIDTH * 5.5);
 
+
                 carY += - carHeight;
-                enemy.draw(ctx, currentSegment.curvature, Math.floor(carX), Math.floor(carY), carWidth, carHeight);
+                enemy.draw(ctx, currentSegment.curvature, carX, carY, carWidth, carHeight);
+
             }
         });
     }
