@@ -124,7 +124,7 @@ const CURVE_POSITION_UPDATE_THRESHOLD = 50;
 
 
 //////////////////////////////////////////////constants used in Enemy.js////////////////////////////////////////////////////
-const NO_OF_ENEMIES = 8;
+const NO_OF_ENEMIES = 5;
 const ENEMY_ACCELERATION_FACTOR = 80;
 const ENEMY_IMAGES = [
     {

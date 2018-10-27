@@ -130,6 +130,10 @@ class Game {
         }
     }
 
+    calculatePlayerRank() {
+        this.player.calculateCurrentPosition(this.position, this.enemies, this.isGameOver);
+    }
+
     update() {
         this.updateNitro();
 
@@ -141,6 +145,8 @@ class Game {
         this.updatePlayerXPos();
 
         this.updateEnemies();
+
+        this.calculatePlayerRank();
 
         this.position += this.player.speed;
 
@@ -172,8 +178,7 @@ class Game {
         }
 
         if ((this.isLeftPressed || this.isRightPressed)
-            && this.road.segments[this.road.findSegmentIndex(this.position)].curvature != 0
-        )
+            && this.road.segments[this.road.findSegmentIndex(this.position)].curvature != 0)
             CAR_SKID.play();
     }
 
@@ -182,6 +187,17 @@ class Game {
         this.dashBoard.drawSpeedometer(this.ctx, this.player.speed, MAX_SPEED);
         this.dashBoard.drawProgressBar(this.ctx, this.road.findSegmentIndex(this.position), TOTAL_LENGTH_OF_ROAD);
         this.dashBoard.drawNitroMeter(this.ctx, MAX_NITRO, this.player.nitro);
+    }
+
+    drawRank() {
+        let fontSize = 40 * HEIGHT_MULTIPLIER + 40;
+        writeText(
+            this.ctx,
+            this.canvas.width / 2, 950 * HEIGHT_MULTIPLIER + 950,
+            this.player.rank,
+            `700 ${fontSize}px  Neuropol`,
+            'white'
+        );
     }
 
     addEventListeners() {
@@ -209,7 +225,6 @@ class Game {
             setTimeout(() => {
 
                 if (this.initialCountDownValue === 'GO!!') {
-
                     this.isInitialCountDownOngoing = false;
                     this.addEventListeners();
                 }
@@ -221,15 +236,21 @@ class Game {
         }
     }
 
+    draw() {
+        this.drawBackground();
+        this.drawRoad();
+        this.drawPlayer();
+        this.drawDashBoard();
+        this.drawRank();
+    }
+
     gameLoop() {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // this.playSounds();
-        this.drawBackground();
-        this.drawRoad();
-        this.drawPlayer();
-        this.drawDashBoard();
+
+        this.draw();
         this.update();
         this.showInitialCountDown();
 

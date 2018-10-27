@@ -1,4 +1,3 @@
-let xx = 0;
 class Road {
 
     constructor() {
@@ -67,18 +66,21 @@ class Road {
                 let percentageIn = (ROAD_PARAM.SEGMENT_LENGTH -
                     (enemy.zPos - currentSegment.p1.worldCoordinates.z)) / ROAD_PARAM.SEGMENT_LENGTH;
 
-                    
+
                 // let carScale = currentSegment.p2.screenCoordinates.scale;
                 // let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
 
                 // let carY = currentSegment.p2.screenCoordinates.y;
 
-                let carScale =( currentSegment.p1.screenCoordinates.scale-currentSegment.p2.screenCoordinates.scale)*percentageIn+currentSegment.p1.screenCoordinates.scale;
-              
-                let carX =( currentSegment.p1.screenCoordinates.x-currentSegment.p2.screenCoordinates.x)*percentageIn+currentSegment.p1.screenCoordinates.x;
-                let carY =( currentSegment.p1.screenCoordinates.y-currentSegment.p2.screenCoordinates.y)*percentageIn+currentSegment.p1.screenCoordinates.y;
-              
-               // let carY = currentSegment.p2.screenCoordinates.y;
+                let carScale = (currentSegment.p1.screenCoordinates.scale - currentSegment.p2.screenCoordinates.scale)
+                    * percentageIn + currentSegment.p1.screenCoordinates.scale;
+
+                let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
+                    * percentageIn + currentSegment.p1.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
+                let carY = (currentSegment.p1.screenCoordinates.y - currentSegment.p2.screenCoordinates.y)
+                    * percentageIn + currentSegment.p1.screenCoordinates.y;
+
+                // let carY = currentSegment.p2.screenCoordinates.y;
 
                 let carWidth = (PLAYER_WIDTH * carScale * ROAD_PARAM.CANVAS_WIDTH * 5.5);
                 let carHeight = (PLAYER_HEIGHT * carScale * ROAD_PARAM.CANVAS_WIDTH * 5.5);

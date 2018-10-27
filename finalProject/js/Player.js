@@ -3,6 +3,17 @@ class Player {
         this.speed = 0;
         this.playerX = 0;
         this.nitro = 0;
+        this.rank = NO_OF_ENEMIES + 1;
+    }
+
+    calculateCurrentPosition(currentZ, enemiesArr, isGameOver) {
+        if (!isGameOver) {
+            let enemiesBehind = 0;
+            enemiesArr.map(enemy => {
+                if (enemy.zPos < currentZ) enemiesBehind++;
+            });
+            this.rank = NO_OF_ENEMIES - enemiesBehind + 1;
+        }
     }
 
     //sign is the -1 or +1 depending on the 

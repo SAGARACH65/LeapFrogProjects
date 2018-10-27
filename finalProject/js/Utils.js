@@ -108,10 +108,10 @@ const generateRandomNO = (max = 1, min = 0) => {
     return (Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
-const storeHighScore = score => {
-    localStorage.highScore = score;
+const storeData = (key, data) => {
+    localStorage[key] = data;
 }
 
-const getHighScore = () => {
-    return (parseInt(localStorage.highScore));
+const getData = key => {
+    return (parseInt(localStorage[key]));
 }
