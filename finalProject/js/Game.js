@@ -34,7 +34,7 @@ class Game {
         this.enemies = [];
         //creating enemies dynamically
         for (let x = 0; x < NO_OF_ENEMIES; x++)
-            this.enemies.push(new Enemies((x + 1) * 200, x, (x + 1) * 3300, x));
+            this.enemies.push(new Enemies((x + 1) / 2.5 * 500, x, (x + 1) / 2.5 * 10000, x));
 
         this.player = new Player();
         this.dashBoard = new DashBoard();
@@ -303,6 +303,5 @@ class Game {
 document.getElementById('main-canvas').width = ROAD_PARAM.CANVAS_WIDTH;
 document.getElementById('main-canvas').width = ROAD_PARAM.CANVAS_HEIGHT;
 
-console.log(ROAD_PARAM.CANVAS_WIDTH, ROAD_PARAM.CANVAS_HEIGHT)
 const game = new Game();
 game.start();

@@ -45,24 +45,23 @@ class Enemies {
     draw(ctx, curvature, destX, destY, width, height) {
         let spriteSheet = new Image();
         spriteSheet.src = 'images/enemies.png';
-        let sprite;
+        let image;
 
-        if (curvature < 0) sprite = this.spriteLocation.carLeft;
-        else if (curvature > 0) sprite = this.spriteLocation.carRight;
-        else sprite = this.spriteLocation.carCentre;
+        if (curvature < 0) image = this.spriteLocation.carLeft;
+        else if (curvature > 0) image = this.spriteLocation.carRight;
+        else image = this.spriteLocation.carCentre;
 
         ctx.drawImage(
             spriteSheet,
-            sprite.x,
-            sprite.y,
-            sprite.w,
-            sprite.h,
+            image.x,
+            image.y,
+            image.w,
+            image.h,
             destX,
             destY,
             width,
             height
         );
-
     }
 
 }

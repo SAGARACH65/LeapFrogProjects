@@ -27,15 +27,15 @@ const writeText = (ctx, x, y, text, font, color) => {
     ctx.shadowBlur = 0;
 }
 
-const drawRect = (ctx, xPos, yPos, width, height, color,shadowBlur) => {
+const drawRect = (ctx, xPos, yPos, width, height, color, shadowBlur) => {
     ctx.beginPath();
     ctx.fillStyle = color;
-   
-    if(shadowBlur){
+
+    if (shadowBlur) {
         ctx.shadowColor = shadowBlur;
-        ctx.shadowBlur = 20;  
+        ctx.shadowBlur = 20;
     }
-    
+
     ctx.rect(xPos, yPos, width, height);
     ctx.fill();
     ctx.closePath();
@@ -56,7 +56,7 @@ const calculateRPMAngle = (speedRatio, a, b) => {
 
 const drawSpeedoMeterArc = (ctx, colorGradient, x, y, radius, startAngle, endAngle, anticlockwise, shadowColor) => {
     ctx.beginPath();
-    ctx.lineWidth = 33;
+    ctx.lineWidth = 33 * HEIGHT_MULTIPLIER + 33;
     ctx.strokeStyle = colorGradient;
 
     ctx.shadowColor = shadowColor;
@@ -73,7 +73,7 @@ const drawSpeedoMeterArc = (ctx, colorGradient, x, y, radius, startAngle, endAng
 const drawImage = (ctx, src, x, y, width, height, shadowColor) => {
     let img = new Image();
     img.src = src;
-   
+
     ctx.drawImage(img, x, y, width, height);
 }
 
