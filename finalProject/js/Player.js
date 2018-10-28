@@ -8,8 +8,7 @@ class Player {
         this.aheadEnemyName = '';
     }
 
-
-    //sign is the -1 or +1 depending on the 
+    //sign is the -1 or +1 depending on the direction car is curved to 
     updateX(sign) {
         this.playerX += (sign * TURNING_SPEED);
     }
@@ -25,6 +24,30 @@ class Player {
 
     decreaseNitro() {
         (this.nitro - MAX_NITRO / NITRO_DECREASE_FACTOR >= 0) ? this.nitro -= MAX_NITRO / NITRO_DECREASE_FACTOR : this.nitro = 0;
+    }
+
+    handleCollision(enemy) {
+        this.speed = 0;
+        enemy.speed = enemy.speed / 1.4;
+    }
+
+    checkAndHandleCollision(currentZ, enemiesArr) {
+        enemiesArr.map((enemy, index) => {
+            //    if(index===1) console.log(enemy.x, (this.playerX*ROAD_PARAM.WIDTH/3))  
+            // if (index === 0) 
+            // console.log(enemy.x, (this.playerX * ROAD_PARAM.WIDTH / 3) + PLAYER_WIDTH * 5)
+            // enemy.x + PLAYER_WIDTH * 5 > (this.playerX * ROAD_PARAM.WIDTH) ,
+            // enemy.zPos < currentZ + (3000) ,
+            // (3000) + enemy.zPos > currentZ);
+
+
+            if (enemy.x < (this.playerX * ROAD_PARAM.WIDTH / 3) + PLAYER_WIDTH * 4 &&
+                enemy.x + PLAYER_WIDTH * 13 > (this.playerX * ROAD_PARAM.WIDTH) &&
+                enemy.zPos < (currentZ + ROAD_PARAM.SEGMENT_LENGTH * 3) + (700) &&
+                enemy.zPos - 1200 > currentZ) {
+                this.handleCollision(enemy);
+            }
+        });
     }
 
     calculateCurrentPosition(currentZ, enemiesArr, isGameOver) {
@@ -53,6 +76,7 @@ class Player {
             this.rank = NO_OF_ENEMIES - enemiesBehind + 1;
         }
     }
+
     updateSpeed(buttonState) {
         //changes the max speed and acceleration depending upon the position on the road and nitro
         let currentMaxSpeed, currentAcceleration = ACCELERATION;
@@ -62,7 +86,6 @@ class Player {
 
         //changes max speed depending upon nitro
         if (buttonState.isSpacePressed && this.nitro > 0) {
-
             currentMaxSpeed *= NITRO_MULTIPLIER_INCREMENT;
             currentAcceleration *= NITRO_MULTIPLIER_INCREMENT;
             this.decreaseNitro();

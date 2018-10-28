@@ -133,7 +133,7 @@ class Game {
 
     calculatePlayerRank() {
         this.player.calculateCurrentPosition(this.position, this.enemies, this.isGameOver);
-        console.log(this.player.behindEnemy, this.player.aheadEnemy);
+        
     }
 
     update() {
@@ -240,6 +240,10 @@ class Game {
         this.drawRank();
     }
 
+    checkAndHandleCollision() {
+        this.player.checkAndHandleCollision(this.position, this.enemies);
+    }
+
     gameLoop() {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -248,6 +252,7 @@ class Game {
 
         this.draw();
         this.update();
+        this.checkAndHandleCollision();
         this.showInitialCountDown();
 
         // requestAnimationFrame(this.gameLoop);

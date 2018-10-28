@@ -57,7 +57,7 @@ class Road {
     }
 
 
-    drawEnemyCars(ctx, currentSegmentIndex, currentSegment, enemiesArr) {
+    drawEnemyCars(ctx, currentSegmentIndex, currentSegment, enemiesArr, baseSegmentWidth) {
 
         enemiesArr.map(enemy => {
             //draw on the road segment if it is the one containing the enemy
@@ -80,11 +80,16 @@ class Road {
                 //  let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
                 // * percentageIn + currentSegment.p2.screenCoordinates.x;
 
-                let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
-                    * percentageIn + currentSegment.p2.screenCoordinates.x ;
-                   // + currentSegment.p2.screenCoordinates.w / enemy.x;
+                // let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
+                //     * percentageIn + currentSegment.p2.screenCoordinates.x;
+             
+                // let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
+                //     * percentageIn + currentSegment.p2.screenCoordinates.x
+                //     + enemy.x * (baseSegmentWidth-currentSegment.p2.screenCoordinates.w)/baseSegmentWidth+enemy.x;
+                // enemy.x=carX;
 
-                //  let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
+                let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
+                    * percentageIn + currentSegment.p2.screenCoordinates.x + currentSegment.p1.screenCoordinates.w / enemy.x;
 
                 let carY = (currentSegment.p1.screenCoordinates.y - currentSegment.p2.screenCoordinates.y)
                     * percentageIn + currentSegment.p1.screenCoordinates.y;
@@ -157,7 +162,7 @@ class Road {
             if (n % 5 === 0)
                 this.drawTrees(ctx, this.segments[n]);
 
-            this.drawEnemyCars(ctx, n, this.segments[n], enemiesArr);
+            this.drawEnemyCars(ctx, n, this.segments[n], enemiesArr, this.segments[baseSegmentIndex].p2.screenCoordinates.w);
         }
 
     }
@@ -186,13 +191,10 @@ class Road {
 
     renderSegment(ctx, currentSegment, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
 
-        let r1 = w1 / 10,
-            r2 = w2 / 10,
-            l1 = w1 / 40,
-            l2 = w2 / 40;
+        let r1 = w1 / 10, r2 = w2 / 10,
+            l1 = w1 / 40, l2 = w2 / 40;
 
         let laneW1, laneW2, laneX1, laneX2;
-
 
         ctx.fillStyle = color.grass;
         ctx.fillRect(0, y2, CANVAS_WIDTH, y1 - y2);
