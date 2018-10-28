@@ -34,7 +34,7 @@ class Player {
         if (!isGameOver) {
             let enemiesBehind = 0;
             enemiesArr.map((enemy, index) => {
-                if (enemy.zPos < currentZ) {
+                if (enemy.zPos < (currentZ + 3 * ROAD_PARAM.SEGMENT_LENGTH)) {
                     enemiesBehind++;
 
                     if (index === enemiesArr.length - 1) {

@@ -77,6 +77,7 @@ class Game {
     }
 
     updatePlayerAsPerCurve() {
+        //player is pushed out of the track to simulate the effect of a curve
         let currentCurveIndex = this.road.findSegmentIndex(this.position);
         let currentCurve = this.road.segments[currentCurveIndex].curvature;
 
@@ -191,31 +192,8 @@ class Game {
     }
 
     drawRank() {
-        let fontSize = 30 * HEIGHT_MULTIPLIER + 30;
-        writeText(
-            this.ctx,
-            this.canvas.width / 2 + 50 * HEIGHT_MULTIPLIER + 50,
-            950 * HEIGHT_MULTIPLIER + 950,
-            this.player.rank,
-            `700 ${fontSize}px  Neuropol`,
-            'white'
-        );
-        writeText(
-            this.ctx,
-            this.canvas.width / 2 - (170 * HEIGHT_MULTIPLIER + 170),
-            820 * HEIGHT_MULTIPLIER + 820,
-            this.player.aheadEnemyName,
-            `700 ${fontSize}px  Neuropol`,
-            'white'
-        );
-        writeText(
-            this.ctx,
-            this.canvas.width / 2 + 260 * HEIGHT_MULTIPLIER + 260,
-            940 * HEIGHT_MULTIPLIER + 940,
-            this.player.behindEnemyName,
-            `700 ${fontSize}px  Neuropol`,
-            'white'
-        );
+        this.dashBoard.drawRankInfo(this.ctx, this.player.rank, this.player.aheadEnemyName, this.player.behindEnemyName);
+
     }
 
     addEventListeners() {

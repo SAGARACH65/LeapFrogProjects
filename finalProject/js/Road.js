@@ -63,10 +63,11 @@ class Road {
             //draw on the road segment if it is the one containing the enemy
             if (currentSegmentIndex === this.findSegmentIndex(enemy.zPos)) {
 
+                //how much percent the car is in between p1 and p2
                 let percentageIn = (ROAD_PARAM.SEGMENT_LENGTH -
                     (enemy.zPos - currentSegment.p1.worldCoordinates.z)) / ROAD_PARAM.SEGMENT_LENGTH;
 
-
+                // console.log(percentageIn)
                 // let carScale = currentSegment.p2.screenCoordinates.scale;
                 // let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
 
@@ -75,8 +76,16 @@ class Road {
                 let carScale = (currentSegment.p1.screenCoordinates.scale - currentSegment.p2.screenCoordinates.scale)
                     * percentageIn + currentSegment.p1.screenCoordinates.scale;
 
+                //huna parne
+                //  let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
+                // * percentageIn + currentSegment.p2.screenCoordinates.x;
+
                 let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
-                    * percentageIn + currentSegment.p1.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
+                    * percentageIn + currentSegment.p2.screenCoordinates.x ;
+                   // + currentSegment.p2.screenCoordinates.w / enemy.x;
+
+                //  let carX = currentSegment.p2.screenCoordinates.x + currentSegment.p2.screenCoordinates.w / enemy.x;
+
                 let carY = (currentSegment.p1.screenCoordinates.y - currentSegment.p2.screenCoordinates.y)
                     * percentageIn + currentSegment.p1.screenCoordinates.y;
 

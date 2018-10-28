@@ -164,7 +164,6 @@ const KEY_DOWN = 40;
 const KEY_SPACE = 32;
 
 const PLAYER_NAME = [
-    'SAGAR',
     'MANISH',
     'KISHOR',
     'ANIL',

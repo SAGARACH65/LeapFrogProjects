@@ -39,6 +39,36 @@ class DashBoard {
         );
     }
 
+    drawRankInfo(ctx, rank, aheadEnemyName, behindEnemyName) {
+        let fontSize = 30 * HEIGHT_MULTIPLIER + 30;
+        writeText(
+            ctx,
+            ROAD_PARAM.CANVAS_WIDTH / 2 + 50 * HEIGHT_MULTIPLIER + 50,
+            950 * HEIGHT_MULTIPLIER + 950,
+            rank,
+            `700 ${fontSize}px  Neuropol`,
+            'white'
+        );
+
+        writeText(
+            ctx,
+            ROAD_PARAM.CANVAS_WIDTH / 2 - (170 * HEIGHT_MULTIPLIER + 170),
+            820 * HEIGHT_MULTIPLIER + 820,
+            aheadEnemyName,
+            `700 ${fontSize}px  Neuropol`,
+            'white'
+        );
+
+        writeText(
+            ctx,
+            ROAD_PARAM.CANVAS_WIDTH / 2 + 260 * HEIGHT_MULTIPLIER + 260,
+            940 * HEIGHT_MULTIPLIER + 940,
+            behindEnemyName,
+            `700 ${fontSize}px  Neuropol`,
+            'white'
+        );
+    }
+
     drawSpeedNeedle(ctx, currentSpeed, maxSpeed) {
         let colorGradient = makeGradient(ctx, '#41dcf4', '#00b8fe');
         let shadowColor = '#00c6ff';
