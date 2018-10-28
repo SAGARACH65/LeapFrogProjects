@@ -12,6 +12,8 @@ const trackMap = [
     { type: 'straight', number: 500, curvature: 0 },
 ];
 
+const FINISH_LINE_LENGTH = 14;
+
 const TOTAL_LENGTH_OF_ROAD = (() => {
     let total = 0;
     for (let i = 0; i < trackMap.length - 1; i++)
@@ -19,7 +21,7 @@ const TOTAL_LENGTH_OF_ROAD = (() => {
 
     //140 is added as we havent added the last sector
     //else the game will crash as it wont get any segments to render
-    return total + 140;
+    return total + FINISH_LINE_LENGTH;
 })();
 
 //position of sprite in the spritesheet
@@ -77,6 +79,7 @@ const ROAD_PARAM = {
     CANVAS_WIDTH: window.innerWidth || document.body.clientWidth,
     CANVAS_HEIGHT: window.innerHeight || document.body.clientHeight
 }
+const TREE_SPARSITY_FACTOR = 5;
 
 
 //this game was orginally designed in 1920/997 screen so for other screen resolutions,percentage is calculated
@@ -121,11 +124,16 @@ const NITRO_MULTIPLIER_INCREMENT = 14;
 const NITRO_INCREASE_FACTOR = 100;
 const NITRO_DECREASE_FACTOR = 50;
 const CURVE_POSITION_UPDATE_THRESHOLD = 50;
+const PLAYER_Z_WIDTH = 700;
+const PLAYER_WIDTH_MULTIPLIER = 4;
+const ENEMY_WIDTH_MULTIPLIER = 13;
+const ENEMY_Z_WIDTH = 1200;
 
 
 //////////////////////////////////////////////constants used in Enemy.js////////////////////////////////////////////////////
 const NO_OF_ENEMIES = 5;
 const ENEMY_ACCELERATION_FACTOR = 80;
+const ENEMY_COLLISION_SPEED_DECREASE_FACTOR = 1.4;
 const ENEMY_IMAGES = [
     {
         carLeft: {

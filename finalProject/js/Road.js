@@ -20,7 +20,7 @@ class Road {
                 screenCoordinates: { x: 0, y: 0, scale: 0 },
                 worldCoordinates: { x: 0, y: 0, z: (i + 1) * ROAD_PARAM.SEGMENT_LENGTH }
             },
-            tree: { ...TREES[generateRandomNO(1, 0)], ...{ sideToDrawTree: this.getSideToDrawTree(curvature) } },
+            tree: { ...TREES[generateRandomNO(1, 0)], ...{ sideToDrawTree: this.getSideToDrawTree(curvature), drawn: false } },
             curvature: curvature,
             color: Math.floor(i / ROAD_PARAM.SIDE_STRIP_LENGTH) % 2 ? ROAD_PARAM.COLORS[0] : ROAD_PARAM.COLORS[1]
         });
@@ -39,11 +39,13 @@ class Road {
     }
 
     drawTrees(ctx, currentSegment) {
-
+        currentSegment.tree.drawn = true;
         let sign = currentSegment.tree.sideToDrawTree;
 
         let treeScale = currentSegment.p2.screenCoordinates.scale;
-        let treeX = currentSegment.p2.screenCoordinates.x + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
+
+        let treeX = currentSegment.p2.screenCoordinates.x
+            + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
 
         let treeY = currentSegment.p2.screenCoordinates.y;
 
@@ -82,7 +84,7 @@ class Road {
 
                 // let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
                 //     * percentageIn + currentSegment.p2.screenCoordinates.x;
-             
+
                 // let carX = (currentSegment.p1.screenCoordinates.x - currentSegment.p2.screenCoordinates.x)
                 //     * percentageIn + currentSegment.p2.screenCoordinates.x
                 //     + enemy.x * (baseSegmentWidth-currentSegment.p2.screenCoordinates.w)/baseSegmentWidth+enemy.x;
@@ -142,7 +144,9 @@ class Road {
             //the segments that are behind us dont need to be rendered
             if ((segment.p2.screenCoordinates.y >= ROAD_PARAM.CANVAS_HEIGHT)) continue;
 
-            this.renderSegment(
+
+            // if(n==4) segment.color=  { road: '#fff', grass: '#fff', sideStrip: '#fff', lane: '#fff' };
+            this.drawSegment(
                 ctx,
                 n,
                 ROAD_PARAM.CANVAS_WIDTH,
@@ -158,8 +162,8 @@ class Road {
         }
 
         for (let n = ROAD_PARAM.NO_OF_SEG_TO_DRAW + baseSegmentIndex; n >= baseSegmentIndex; n--) {
-            //trees are drawn every 5 segments so as to maintain sparsity
-            if (n % 5 === 0)
+            //trees are drawn every certain segments so as to maintain sparsity
+            if (n % TREE_SPARSITY_FACTOR === 0)
                 this.drawTrees(ctx, this.segments[n]);
 
             this.drawEnemyCars(ctx, n, this.segments[n], enemiesArr, this.segments[baseSegmentIndex].p2.screenCoordinates.w);
@@ -183,13 +187,13 @@ class Road {
         p.screenCoordinates.w = Math.round((p.screenCoordinates.scale * WIDTH * CANVAS_WIDTH / 2));
     }
 
-    renderFinishAndStartLines(ctx, currentSegment, x1, y1, w1, x2, y2, w2) {
+    drawFinishAndStartLines(ctx, currentSegment, x1, y1, w1, x2, y2, w2) {
         if ((currentSegment >= TOTAL_LENGTH_OF_ROAD && currentSegment <= TOTAL_LENGTH_OF_ROAD + 3)
             || ((currentSegment <= 9) && currentSegment >= 7))
             drawPolygon(ctx, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, (currentSegment % 2 === 0) ? 'black' : 'white');
     }
 
-    renderSegment(ctx, currentSegment, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
+    drawSegment(ctx, currentSegment, CANVAS_WIDTH, LANES, x1, y1, w1, x2, y2, w2, color) {
 
         let r1 = w1 / 10, r2 = w2 / 10,
             l1 = w1 / 40, l2 = w2 / 40;
@@ -204,7 +208,7 @@ class Road {
         drawPolygon(ctx, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, color.road);
 
         //draws start and finish lines
-        this.renderFinishAndStartLines(ctx, currentSegment, x1, y1, w1, x2, y2, w2);
+        this.drawFinishAndStartLines(ctx, currentSegment, x1, y1, w1, x2, y2, w2);
 
         //width and x positon of the starting lane
         laneW1 = w1 * 2 / LANES;

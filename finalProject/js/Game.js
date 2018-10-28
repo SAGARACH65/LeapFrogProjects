@@ -133,7 +133,7 @@ class Game {
 
     calculatePlayerRank() {
         this.player.calculateCurrentPosition(this.position, this.enemies, this.isGameOver);
-        
+
     }
 
     update() {
@@ -240,8 +240,17 @@ class Game {
         this.drawRank();
     }
 
+    checkAndHandleEnemyCollision() {
+        this.player.checkAndHandleEnemyCollision(this.position, this.enemies);
+    }
+
+    checkAndHandleTreeCollision() {
+        this.player.checkAndHandleTreeCollision(this.road.segments, this.road.findSegmentIndex(this.position));
+    }
+
     checkAndHandleCollision() {
-        this.player.checkAndHandleCollision(this.position, this.enemies);
+        this.checkAndHandleEnemyCollision();
+        this.checkAndHandleTreeCollision();
     }
 
     gameLoop() {
@@ -249,10 +258,10 @@ class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // this.playSounds();
-
+       
         this.draw();
         this.update();
-        this.checkAndHandleCollision();
+        this.checkAndHandleCollision()
         this.showInitialCountDown();
 
         // requestAnimationFrame(this.gameLoop);

@@ -26,12 +26,17 @@ class Player {
         (this.nitro - MAX_NITRO / NITRO_DECREASE_FACTOR >= 0) ? this.nitro -= MAX_NITRO / NITRO_DECREASE_FACTOR : this.nitro = 0;
     }
 
-    handleCollision(enemy) {
+    handleEnemyCollision(enemy) {
         this.speed = 0;
-        enemy.speed = enemy.speed / 1.4;
+        enemy.handleCollision();
     }
 
-    checkAndHandleCollision(currentZ, enemiesArr) {
+    handleTreeCollision() {
+        this.playerX = 0;
+        this.speed = 0;
+    }
+
+    checkAndHandleEnemyCollision(currentZ, enemiesArr) {
         enemiesArr.map((enemy, index) => {
             //    if(index===1) console.log(enemy.x, (this.playerX*ROAD_PARAM.WIDTH/3))  
             // if (index === 0) 
@@ -41,13 +46,27 @@ class Player {
             // (3000) + enemy.zPos > currentZ);
 
 
-            if (enemy.x < (this.playerX * ROAD_PARAM.WIDTH / 3) + PLAYER_WIDTH * 4 &&
-                enemy.x + PLAYER_WIDTH * 13 > (this.playerX * ROAD_PARAM.WIDTH) &&
-                enemy.zPos < (currentZ + ROAD_PARAM.SEGMENT_LENGTH * 3) + (700) &&
-                enemy.zPos - 1200 > currentZ) {
-                this.handleCollision(enemy);
-            }
+            if (enemy.x < (this.playerX * ROAD_PARAM.WIDTH / 3) + PLAYER_WIDTH * PLAYER_WIDTH_MULTIPLIER &&
+                enemy.x + PLAYER_WIDTH * ENEMY_WIDTH_MULTIPLIER > (this.playerX * ROAD_PARAM.WIDTH) &&
+                enemy.zPos < (currentZ + ROAD_PARAM.SEGMENT_LENGTH * 3) + (PLAYER_Z_WIDTH) &&
+                enemy.zPos - ENEMY_Z_WIDTH > currentZ
+            )
+                this.handleEnemyCollision(enemy);
+
         });
+    }
+
+
+
+    checkAndHandleTreeCollision(segments, baseSegment) {
+
+        let currentSegment = segments[baseSegment + 4];
+        if (((this.playerX >= 1.55 && currentSegment.tree.sideToDrawTree > 0)
+            || (this.playerX <= -1.25 && currentSegment.tree.sideToDrawTree < 0))
+            && currentSegment.tree.drawn
+        )
+            this.handleTreeCollision();
+
     }
 
     calculateCurrentPosition(currentZ, enemiesArr, isGameOver) {

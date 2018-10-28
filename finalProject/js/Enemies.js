@@ -22,7 +22,7 @@ class Enemies {
     //randomly generates the starting position of the enemy cars
     calculateRandomXPos(index) {
         let sign = (generateRandomNO(-1, 2) === 0) ? -1 : 1;
-        return (sign * generateRandomNO(0, 200));
+        return (sign * generateRandomNO(30, 200));
     }
 
     updateSpeed() {
@@ -31,6 +31,9 @@ class Enemies {
             (!(this.speed >= this.maxSpeed)) ? this.speed += this.acceleration : this.speed = this.maxSpeed;
         else
             (!(this.speed <= 0)) ? this.speed -= this.acceleration : this.speed = 0;
+    }
+    handleCollision() {
+        this.speed = this.speed / ENEMY_COLLISION_SPEED_DECREASE_FACTOR;
     }
 
     updateZPos() {
