@@ -257,7 +257,7 @@ class Game {
         //  CLEARING THE SCREEN BEFORE EACH UPDATE
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // this.playSounds();
+        this.playSounds();
        
         this.draw();
         this.update();

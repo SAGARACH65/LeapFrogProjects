@@ -128,10 +128,12 @@ const PLAYER_Z_WIDTH = 700;
 const PLAYER_WIDTH_MULTIPLIER = 4;
 const ENEMY_WIDTH_MULTIPLIER = 13;
 const ENEMY_Z_WIDTH = 1200;
-
+const CAR_TO_BASE_SEGMENT_OFFSET = 4;
+const ROAD_CENTRE_TO_LEFT_TREE_DISTANCE = -1.25;
+const ROAD_CENTRE_TO_RIGHT_TREE_DISTANCE = 1.55;
 
 //////////////////////////////////////////////constants used in Enemy.js////////////////////////////////////////////////////
-const NO_OF_ENEMIES = 5;
+const NO_OF_ENEMIES = 10;
 const ENEMY_ACCELERATION_FACTOR = 80;
 const ENEMY_COLLISION_SPEED_DECREASE_FACTOR = 1.4;
 const ENEMY_IMAGES = [
@@ -148,13 +150,24 @@ const ENEMY_IMAGES = [
     },
     {
         carLeft: {
-            x: 6, y: 23, w: 217, h: 101
+            x: 6, y: 271, w: 217, h: 101
         },
         carCentre: {
-            x: 445, y: 23, w: 190, h: 98
+            x: 445, y: 271, w: 190, h: 98
         },
         carRight: {
-            x: 858, y: 22, w: 217, h: 101
+            x: 858, y: 271, w: 217, h: 101
+        }
+    },
+    {
+        carLeft: {
+            x: 6, y: 519, w: 217, h: 101
+        },
+        carCentre: {
+            x: 445, y: 519, w: 190, h: 98
+        },
+        carRight: {
+            x: 858, y: 519, w: 217, h: 101
         }
     }
 ];
@@ -174,7 +187,7 @@ const KEY_SPACE = 32;
 const PLAYER_NAME = [
     'MANISH',
     'KISHOR',
+    'SHREEJIT',
     'ANIL',
     'AMAN',
-    'SHREEJIT',
 ];

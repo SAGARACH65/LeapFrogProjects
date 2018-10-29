@@ -32,8 +32,8 @@ class Player {
     }
 
     handleTreeCollision() {
-        this.playerX = 0;
         this.speed = 0;
+       
     }
 
     checkAndHandleEnemyCollision(currentZ, enemiesArr) {
@@ -60,10 +60,10 @@ class Player {
 
     checkAndHandleTreeCollision(segments, baseSegment) {
 
-        let currentSegment = segments[baseSegment + 4];
-        if (((this.playerX >= 1.55 && currentSegment.tree.sideToDrawTree > 0)
-            || (this.playerX <= -1.25 && currentSegment.tree.sideToDrawTree < 0))
-            && currentSegment.tree.drawn
+        let currentSegment = segments[baseSegment + CAR_TO_BASE_SEGMENT_OFFSET];
+        if (((this.playerX >= ROAD_CENTRE_TO_RIGHT_TREE_DISTANCE && currentSegment.tree.sideToDrawTree > 0)
+            || (this.playerX <= ROAD_CENTRE_TO_LEFT_TREE_DISTANCE && currentSegment.tree.sideToDrawTree < 0))
+            && currentSegment.tree.isDrawn
         )
             this.handleTreeCollision();
 

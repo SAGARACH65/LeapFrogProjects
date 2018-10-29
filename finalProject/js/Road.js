@@ -20,7 +20,7 @@ class Road {
                 screenCoordinates: { x: 0, y: 0, scale: 0 },
                 worldCoordinates: { x: 0, y: 0, z: (i + 1) * ROAD_PARAM.SEGMENT_LENGTH }
             },
-            tree: { ...TREES[generateRandomNO(1, 0)], ...{ sideToDrawTree: this.getSideToDrawTree(curvature), drawn: false } },
+            tree: { ...TREES[generateRandomNO(1, 0)], ...{ sideToDrawTree: this.getSideToDrawTree(curvature), isDrawn: false } },
             curvature: curvature,
             color: Math.floor(i / ROAD_PARAM.SIDE_STRIP_LENGTH) % 2 ? ROAD_PARAM.COLORS[0] : ROAD_PARAM.COLORS[1]
         });
@@ -39,13 +39,15 @@ class Road {
     }
 
     drawTrees(ctx, currentSegment) {
-        currentSegment.tree.drawn = true;
+        currentSegment.tree.isDrawn = true;
         let sign = currentSegment.tree.sideToDrawTree;
 
         let treeScale = currentSegment.p2.screenCoordinates.scale;
+        let y = 1920 - 1920 * 2.5 * WIDTH_MULTIPLIER;
+        let x = 12;
 
         let treeX = currentSegment.p2.screenCoordinates.x
-            + sign * (treeScale * ROAD_PARAM.WIDTH * ROAD_PARAM.CANVAS_WIDTH / 12);
+            + sign * (treeScale * ROAD_PARAM.WIDTH * y / x);
 
         let treeY = currentSegment.p2.screenCoordinates.y;
 
@@ -54,6 +56,7 @@ class Road {
 
         treeX += sign * treeWidth;
         treeY += - treeHeight;
+
 
         drawImage(ctx, currentSegment.tree.img, treeX, treeY, treeWidth, treeHeight);
     }
